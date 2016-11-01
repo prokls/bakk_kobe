@@ -1,0 +1,140 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{csquotes}
+
+\newcommand\E{\mathbb{E}}
+\newcommand\N{\mathcal{N}}
+\DeclareMathOperator\cov{cov}
+\DeclareMathOperator\var{var}
+
+\newcommand\given{
+  \nonscript\:
+  \vert
+  \nonscript\:
+  \mathopen{}
+  \allowbreak
+}
+
+\title{Mathematical notes on Bishop's book on Pattern Recognition and Machine Learning}
+\author{Lukas Prokop}
+\date{October 2016 to February 2016}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Preliminaries}
+
+\section{Exercise 1.5}
+
+\begin{description}
+  \item[Given] $\var[f] = \E[(f(x) - \E[f(x)])^2]$
+  \item[Find] $\var[f] = \E[f(x)^2] - \E[f(x)]^2$
+\end{description}
+
+For the expected value $\E$, random variables $a$ and $b$ and constant $c$ it holds that
+\begin{align}
+  \E[a+b] &= \E[a] + \E[b]       \label{eq:e-add} \\
+  \E[c \cdot a] &= c \cdot \E[a] \label{eq:e-multi} \\
+  \E[c] &= c                     \label{eq:e-const}
+\end{align}
+
+Followingly, we can prove the desired equation:
+\begin{align*}
+  \var[f] &= \E[(f(x) - \E[f(x)])^2] \\
+          &= \E[f(x)^2 - 2f(x) \E[f(x)] + \E[f(x)]^2] \\
+          &\overset{\eqref{eq:e-add}}{=} \E[f(x)^2] - \E[2 \cdot f(x) \cdot \E[f(x)]] + \E[f(x)]^2 \\
+          &\overset{\eqref{eq:e-multi}}{=} \E[f(x)^2] - \E[2] \cdot \E[f(x)] \cdot \E[\E[f(x)]] + \E[f(x)]^2 \\
+          &\overset{\eqref{eq:e-const}}{=} \E[f(x)^2] - 2 \cdot \E[f(x)] \cdot \E[f(x)] + \E[f(x)]^2 \\
+          &= \E[f(x)^2] - \E[f(x)]^2
+\end{align*}
+
+\section{$\E[ab] = \E[a] \cdot \E[b]$ if $a$ and $b$ are independent}
+%
+\begin{description}
+  \item[Given] two independent random variables $a$ and $b$
+  \item[Find] $\E[a \cdot b] = \E[a] \cdot \E[b]$
+\end{description}
+
+Let $\E[x]$ be defined by
+\[ \E[x] = \int p(x) \cdot x \, dx \]
+Furthermore for two independent random variables $a$ and $b$, it holds that
+\[ p(ab) = p(a) \cdot p(b) \]
+
+\begin{align*}
+  \E[x] &= \int p(x) \cdot x \, dx \\
+  \E[a \cdot b]
+    &= \int \left( p(ab) \cdot ab \right) \: d(ab) \\
+    &= \int \int \left( p(a) \cdot p(b) \cdot a \cdot b \right)   \: da \, db \\
+    &= \int \int \left( p(a) \cdot a \right)  \cdot \left(p(b) \cdot b\right)  \: da \, db \\
+%    &= \int \left( \left( \int p(a) \cdot a \: da\right) \cdot p(b) \cdot b \right)   \: db \\
+    &= \left(\int p(a) \cdot a \: da\right) \left(\int p(b) \cdot b  \: db\right) \\
+    &= \E[a] \cdot \E[b]
+\end{align*}
+
+\section{Exercise 1.6}
+
+\begin{quote}
+  \enquote{For two random variables $x$ and $y$, the \emph{covariance} is defined by
+  \begin{align*}
+    \cov{[x,y]} &= \E_{x,y}[\{x - \E_{x}[x]\}\{y - \E_{y}[y]\}] \\
+                &= \E_{x,y}[xy] - \E_{x}[x] \E_{y}[y]
+  \end{align*}
+  which expresses the extent to which $x$ and $y$ vary together.
+  If $x$ and $y$ are independent, then their covariance vanishes.} \\
+  ---page 20
+\end{quote}
+
+\begin{description}
+  \item[Given] two independent random variables $x$ and $y$ with covariance defined by $\cov[x,y] = \E_{x,y}[\{x - \E_{x}[x]\}\{y - \E_{y}[y]\}]$
+  \item[Find] $\cov[x,y] = 0$
+\end{description}
+
+If two random variables $a$ and $b$ are independent, then it holds that
+\begin{align}
+  \E[a \cdot b] &= \E[a] \cdot \E[b]       \label{eq:e-2-multi}
+\end{align}
+
+\begin{align*}
+  \cov{[x,y]}
+    &= \E_{x,y}[\{x - \E_{x}[x]\}\{y - \E_{y}[y]\}] \\
+    &= \E_{x,y}[xy - y\E_x[x] - x\E_y[y] + \E_x[x] \cdot \E_y[y]] \\
+    &\overset{\eqref{eq:e-add}}{=} \E_{x,y}[xy] + \E_{x,y}[-y \cdot \E_x[x]] + \E_{x,y}[-x \cdot \E_y[y]] + \E_{x,y}[\E_x[x] \cdot \E_y[y]] \\
+    &\overset{\eqref{eq:e-multi}}{=} \E_{x,y}[xy] - \E_x[x] \cdot \E_{y}[y] - \E_{y}[y] \cdot \E_{x}[x] + \E_{x,y}[\E_x[x] \cdot \E_y[y]] \\
+    &\overset{\eqref{eq:e-2-multi}}{=} \E_{x,y}[x] \cdot \E_{x,y}[y] - 2 \cdot \E_x[x] \cdot \E_{y}[y] + \E_{x,y}[\E_x[x] \cdot \E_y[y]] \\
+    &\overset{\eqref{eq:e-const}}{=} \E_{x,y}[x] \cdot \E_{x,y}[y] - 2 \cdot \E_x[x] \cdot \E_{y}[y] + \E_x[x] \cdot \E_y[y] \\
+    &= 0
+\end{align*}
+
+\section{Gaussian interpretation of curve fitting}
+
+\begin{description}
+  \item[Given] $p(t \given x,w,\beta) = \N(t \given y(x,w), \beta^{-1})$ and
+    \[ \N(x \given \mu, \sigma^2) = (2 \pi \sigma^2)^{-\frac12} \exp\left(-2^{-1} \sigma^{-2} (x - \mu)^2\right) \]
+  \item[Find]
+    \[ \ln{p(t \given x,w,\beta)} = -\frac{\beta}{2} \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2} \ln\beta - \frac{N}{2} \ln(2\pi) \]
+\end{description}
+
+Remember the basic laws for logarithms:
+\begin{align}
+  \ln(a \cdot b) &= \ln{a} + \ln{b}              \label{eq:ln-multi} \\
+  \ln\left(\frac{a}{b}\right) &= \ln{a} - \ln{b} \label{eq:ln-div} \\
+  \ln(\exp(a)) &= a                              \label{eq:ln-inv} \\
+  \ln(a^b) &= b \cdot \ln(a)                     \label{eq:ln-power}
+\end{align}
+
+\begin{align}
+  \ln{p(t \given x,w,\beta)} &= (2 \pi \beta^{-1})^{-\frac12} \exp\left(-2^{-1} \beta (t - y(x,w))^2\right) \\
+      &\overset{\eqref{eq:ln-multi}}{=} \ln(2 \pi \beta^{-1})^{-\frac12} + \ln\exp\left(-2^{-1} \beta (t - y(x,w))^2\right) \\
+      &\overset{\eqref{eq:ln-inv}}{=} \ln\left(\frac{\beta}{2\pi}\right)^{\frac12} - \frac{\beta}{2}\left(t - y(x,w)\right)^2 \\
+      &\overset{\eqref{eq:ln-inv}}{=} \frac12 \cdot \ln\left(\frac{\beta}{2\pi}\right) - \frac{\beta}{2}\left(t - y(x,w)\right)^2 \\
+      &\overset{\eqref{eq:ln-inv}}{=} \frac12 \cdot \ln \beta - \frac12 \cdot \ln(2\pi) - \frac{\beta}{2}\left(t - y(x,w)\right)^2 \\
+  \sum_{n=1}^N \ln{p(t_n \given x_n,w,\beta)} &= \sum_{n=1}^N \left(\frac12 \ln{\beta} - \frac12 \ln{2\pi} - \frac\beta2 (t_n - y(x_n, w))^2\right) \\
+      &= \frac{N}{2} \ln\beta - \frac{N}{2} \ln{2\pi} - \frac{\beta}{2} \sum_{n=1}^N \left(y(w_n, w) - t_n\right)^2
+\end{align}
+
+
+\end{document}
