@@ -59,8 +59,15 @@ Followingly, we can prove the desired equation:
   \item[Find] $\E[a \cdot b] = \E[a] \cdot \E[b]$
 \end{description}
 
-Let $\E[x]$ be defined by
-\[ \E[x] = \int p(x) \cdot x \, dx \]
+Let $p(x)$ be the probability density function on $\mathbb{R}$
+and $x$ be the $\mathbb{R}$-valued random variable (for $p$).
+The expectation $\E[x]$ is defined by
+\[ \E[x] = \int_{\mathbb R} p(x) \cdot x \, dx \]
+We will prove the formula under this setting.
+The case that the probability distribution is defined on ${\mathbb R}^d$
+can be discussed analogously. The case that the probability distribution
+is given on a finite set $\Omega$ can be discussed by replacing the
+integral by the sum over the finite set $\Omega$.
 Furthermore for two independent random variables $a$ and $b$, it holds that
 \[ p(ab) = p(a) \cdot p(b) \]
 
