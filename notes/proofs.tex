@@ -3,6 +3,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{mathtools}
 \usepackage{csquotes}
+\usepackage[pdfborder={0 0 0}]{hyperref}
 
 \newcommand\E{\mathbb{E}}
 \newcommand\N{\mathcal{N}}
@@ -122,7 +123,7 @@ If two random variables $a$ and $b$ are independent, then it holds that
   \item[Given] $p(t \given x,w,\beta) = \N(t \given y(x,w), \beta^{-1})$ and
     \[ \N(x \given \mu, \sigma^2) = (2 \pi \sigma^2)^{-\frac12} \exp\left(-2^{-1} \sigma^{-2} (x - \mu)^2\right) \]
   \item[Find]
-    \[ \ln{p(t \given x,w,\beta)} = -\frac{\beta}{2} \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2} \ln\beta - \frac{N}{2} \ln(2\pi) \]
+    \[ \ln{p(t \given x,w,\beta)} = -\frac{\beta}{2} \cdot \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2} \ln\beta - \frac{N}{2} \ln(2\pi) \]
 \end{description}
 
 Remember the basic laws for logarithms:
@@ -143,5 +144,69 @@ Remember the basic laws for logarithms:
       &= \frac{N}{2} \ln\beta - \frac{N}{2} \ln{2\pi} - \frac{\beta}{2} \sum_{n=1}^N \left(y(w_n, w) - t_n\right)^2
 \end{align}
 
+\section{Exercise 1.11}
+
+\begin{description}
+  \item[Given] $\ln{p(x \given \mu, \sigma^2)} = -\frac1{2\sigma^2} \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi)$
+  \item[Find] $\mu_{\text{ML}} = \frac{1}{N} \cdot \sum_{n=1}^N x_n$ for maximized $\mu$ and \\
+    $\sigma_{\text{ML}} = \frac{1}{N}\cdot \sum_{n=1}^N (x_n - \mu_{\text{ML}})^2$ for maximized $\sigma^2$
+\end{description}
+
+So we want to determine the 2 parameters of a Gaussian distribution, namely $\mu$ and $\sigma^2$, in the maximum likelihood case.
+We begin with $\mu$:
+
+\begin{enumerate}
+  \item Derive $\ln{p(x \given \mu, \sigma^2)}$ for $\mu$
+    \begin{align*}
+      \frac\partial{\partial \mu} \ln{p(x \given \mu, \sigma^2)}
+      &= \frac\partial{\partial \mu} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi)\right) \\
+      &= \frac\partial{\partial \mu} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n^2 - 2 x_n \mu + \mu^2) - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi)\right) \\
+      &= -\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (-2x_n + 2\mu) \\
+      &= -\frac1{\sigma^2} \cdot \sum_{n=1}^N (\mu - x_n)
+    \end{align*}
+  \item Set result zero
+    \[ 0 = -\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (\mu - x_n) = \sum_{n=1}^N (\mu - x_n) = N \cdot \mu - \sum_{n=1}^N x_n \]
+    \[ \implies \mu_{\text{ML}} = \frac1N \cdot \sum_{n=1}^N x_n \qquad \text{commonly called \enquote{sample mean}} \]
+\end{enumerate}
+
+We continue with $\sigma^2$ and use the same approach:
+
+\begin{enumerate}
+  \item Derive $\ln{p(x \given \mu, \sigma^2)}$ for $\sigma^2$
+    \begin{align*}
+      \frac{\partial}{\partial \sigma^2} \ln{p(x \given \mu, \sigma^2)}
+      &= \frac{\partial}{\partial \sigma^2} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}2 \ln{\sigma^2} - \frac{N}2 \ln(2\pi)\right) \\
+      &= \frac{1}{2\sigma^4} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \cdot \frac{1}{\sigma^2} \\
+      &= \frac{1}{2\sigma^2} \left(\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - N\right)
+    \end{align*}
+  \item Set result zero
+    \begin{align*}
+      0 &= \frac{1}{2\sigma^2} \left(\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - N\right) \\
+      N \cdot \sigma^2 &= \sum_{n=1}^N (x_n - \mu)^2 \\
+      \sigma^2_{\text{ML}} &= \frac{1}{N} \cdot \sum_{n=1}^N (x_n - \mu)^2 \qquad \text{commonly called \enquote{sample variance}}
+    \end{align*}
+\end{enumerate}
+
+\section{Precision parameter $\beta$ in the maximum likelihood case}
+
+\begin{description}
+  \item[Given] $\ln{p(t \given x,w,\beta)} = -\frac{\beta}{2} \cdot \sum_{n-1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}2 \ln{\beta} - \frac{N}{2} \ln(2\pi)$
+  \item[Find] $\frac{1}{\beta_{\text{ML}}} = \frac{1}{N} \cdot \sum_{n=1}^N (y(x_n, w_{\text{ML}}) - t_n)^2$ by maximizing $\beta$
+\end{description}
+
+\begin{enumerate}
+  \item Derive $\ln{p(t \given x,w,\beta)}$ with $\beta$
+    \begin{align*}
+      \frac{\partial}{\partial \beta} \ln{p(t \given x,w,\beta)}
+      &= \frac{\partial}{\partial \beta} \left(-\frac{\beta}{2} \sum_{n=1}^N (y(x_n,w) - t_n)^2 + \frac{N}{2} \ln\beta - \frac{N}{2} \ln(2\pi)\right) \\
+      &= -\frac12 \cdot \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2} \cdot \frac1\beta
+    \end{align*}
+  \item Set result zero
+    \begin{align*}
+      0 &= -\frac{1}{2} \cdot \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2\beta} \\
+      \frac{N}{\beta} &= \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 \\
+      \frac{1}{\beta_{\text{ML}}} &= \frac{1}{N} \cdot \sum_{n=1}^N (y(x_n,w) - t_n)^2
+    \end{align*}
+\end{enumerate}
 
 \end{document}
