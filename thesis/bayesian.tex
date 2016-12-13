@@ -128,7 +128,7 @@ Consider the continuous case. Let $f$ be a PDF, $a \in \mathbb R_{\geq 0}$, $n \
   \E[R^n] &= \int_{\mathbb R} x^n \cdot f(x) \, dx \\
           &\geq \int_{x \geq a} x^n \cdot f(x) \, dx \\
           &\geq a^n \int_{x \geq a} f(x) \, dx \\
-          &= a^n \cdot \Prob[X \geq a]
+          &= a^n \cdot \Prob[R \geq a]
 \end{align*}
 The discrete case follows immediately.
 This concludes the correctness of the following theorem:
@@ -151,12 +151,21 @@ The next theorem is called Weak Law of Large Numbers.
   TODO: iid should/will be introduced in section~\ref{sec:bp-dist}, but is used here already.
 \end{theorem}
 
+% S_n^* as name is awkward
+
 \begin{proof}
   \begin{align}
       \E[S^*_n] &= \E\left[\frac{1}{n}\left(R_1 + R_2 + \ldots + R_n\right) - \mu\right] \nonumber\\
                 &= \frac1n \left(\E[R_1] + \E[R_2] + \ldots + \E[R_n]\right) - \E[\mu] \nonumber\\
                 &= \frac{n \cdot \mu}{n} - \mu = 0 \\
-    \Var[S^*_n] &= TODO
+    \Var[S^*_n] &= \E[(S_n^* - \E[S_n^*])^2] \nonumber\\
+                &= \E[S_n^{*2}] \nonumber\\
+                &= \E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] \nonumber\\
+                &= \E\left[\frac{S_n^2}{n^2} - 2\frac{S_n}{n}\mu + \mu^2\right] \nonumber\\
+                &= \E\left[\frac{S_n^2}{n^2}\right] - \E\left[\frac{2\mu}{n} S_n\right] + \E\left[\mu^2\right] \nonumber\\
+                &= \frac{1}{n^2} \left(\Var\left[\sum_{i=1}^n R_i\right] + \E[S_n]^2\right) - 2\mu^2 + \mu^2 \nonumber\\
+                &= \frac{1}{n^2} \left(\sum_{i=1}^n \Var[R_i] + 2\sum_{\substack{i<j \\ i,j=1}}^n \Cov[R_i,R_j] + \E[S_n]^2\right) - \mu^2 \nonumber\\
+                &= \frac{1}{n^2} \left(n \cdot \sigma^2 + n^2 \cdot \mu^2\right) - \mu^2 = \frac{\sigma^2}{n} + \mu^2 - \mu^2 = \frac{\sigma^2}{n}
   \end{align}
 \end{proof}
 
@@ -264,6 +273,10 @@ We now model the problem from a probabilistic view:
 %
 % In particular, explain a theoretical reason of adding the term $|w|^2$ for
 % the MLE problem in terms of the Baysian theorem.
+%
+% The Bayesian prior is exponentially to |w|^2. This is a common criticism of the application
+% of MLE to Bayesian theory. There is always the prior as assumption, which in this case has computational implications.
+% Computational experiments are required to verify the use.
 %
 The Maximum Likelihood Estimator (MLE) is a technique to estimate the parameters of a probability distribution.
 It maximizes the likelihood that the given data actually occurs.
