@@ -1,0 +1,344 @@
+\chapter{Bayesian theory}
+\section{Probability theory and statistics}
+\subsection{$\boldsymbol\sigma$-algebra}
+%
+The following object is necessary in order to define probability properly:
+
+\begin{definition}
+  Let $X$ be a set. A $\sigma$-algebra is a set $Y$ of subsets of $X$ satisfying:
+  \begin{enumerate}
+    \item $\emptyset \in Y$
+    \item $Z \in Y \implies Z^C \in Y$ where $Z^C$ denotes the complement of $Z$.
+    \item $\left(\bigcup_{i=1}^n Z_i\right) \in Y$ where $n \in \Nat$ and $Z_i \in Y$ where $1 \leq i \leq n$.
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  Let $X \coloneqq \set{a, b, c, d}$ and $Z \coloneqq \set{\set{a}}$. We extend $Z$ to a $\sigma$-algebra $Y$:
+  \[ Y = \set{\set{}, \set{a,b,c,d}, \set{a}, \set{b,c,d}} \]
+\end{example}
+
+\subsection{Basic definitions}
+\label{sec:bp-def}
+%
+Probability theory is concerned with random experiments and random phenomena. Probability in its basic form is the fraction of events with a certain outcome to the total number of events.
+
+\begin{definition}
+  A \emph{probability space} $(\Omega, \mathcal A, P)$ denotes
+    the set of possible outcomes, a set of events and a map from an element of $\mathcal A$ to a real value in $[0,1]$ respectively.
+  An \emph{event} is an arbitrary set of elements in $\Omega$ satisfying the conditions of a $\sigma$-algebra.
+  A \emph{random variable} can realize one of the values in $\mathcal A$.
+\end{definition}
+\begin{example}
+  We toss a coin two times with possible outcomes heads (\textit h) or tails (\textit t). Then $\Omega = \set{h,t}$ and $\mathcal A = \set{(h, h), (h, t), (t, h), (t, t)}$.
+  Let $R$ be our random variable. Our first experiment yields $(h, t)$ as result. Our second experiment yields $(h, h)$.
+  Then we denote $\Prob[R=(h,t)] \coloneqq 0.5$, $\Prob[R=(h,h)] \coloneqq 0.5$ and $\Prob[R=(t,t)] \coloneqq 0$.
+\end{example}
+
+\subsection{Average Value and Expected Value}
+\label{sec:bp-ae}
+%
+The \emph{average value} $\mean$ of a random variable is defined as,
+\begin{align}
+  \mean &\coloneqq \frac{1}{\card{\mathcal A}} \sum_{a \in \mathcal A} a
+\end{align}
+$\E[R]$ (also called \emph{population mean} $\mu$) denotes the expected value of random variable $R$.
+\begin{align}
+  \E[R] &\coloneqq \sum_{a \in \mathcal A} \Prob[R=a] \cdot a
+\end{align}
+So, average and expected values are only defined for numeric events, unlike our event $(h,t)$.
+
+Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
+The following properties are satisfied:
+\begin{align}
+  \E[c]     &\coloneqq c \\
+  \E[R + c] &\coloneqq \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a + c)\right) \nonumber\\
+            &= \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot a\right) + \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot c\right) \nonumber\\
+            &= \E[R] + c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \nonumber\\
+            &= \E[R] + c \cdot 1 = \E[R] + c \\
+  \E[R + S] &\coloneqq \sum_{a \in (\mathcal A_R \cup \mathcal A_S)} \Prob[R=a] \cdot a \nonumber\\
+            &= \sum_{a \in \mathcal A_R} \Prob[R=a] \cdot a + \sum_{a \in \mathcal A_S} \Prob[R=a] \cdot a \nonumber\\
+            &= \E[R] + \E[S] \\
+  \E[c \cdot X] &\coloneqq \sum_{a \in \mathcal A} \Prob[R=a] \cdot (c \cdot a) \nonumber\\
+            &= c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \cdot a = c \cdot \E[X]
+\end{align}
+
+\subsection{Continous probability model}
+\label{sec:bp-continuous}
+%
+Let $f$ be a continuous function defined in $(-\infty, \infty) \subseteq \mathbb R$.
+If $f$ satisfies the following properties, $f$ is called a Probability Density Function (PDF):
+\begin{align}
+  f(x) &\geq 0 \qquad \forall x \in (-\infty, \infty) \\
+     1 &= \int_{-\infty}^{\infty} f(x) \, dx
+\end{align}
+\emph{Probability} is defined as follows:
+\begin{align}
+  \Prob[a \leq R \leq b] &\coloneqq \int_a^b f(x) \, dx
+\end{align}
+The \emph{expected value} in the continuous model is defined as,
+\begin{align}
+  \E[R] &\coloneqq \int_{-\infty}^\infty \left(\Prob[R=x] \cdot x\right) \, dx \coloneqq \int_{\mathbb R} \left(\Prob[R=x] \cdot x\right) \, dx
+\end{align}
+%
+Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
+The expected value satisfies the following properties:
+\begin{align}
+  \E[c]     &\coloneqq c \\
+  \E[R + c] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x + c) \, dx \nonumber\\
+            &= \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[R=x] \cdot c\right) \, dx \nonumber\\
+            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + c \cdot \int_{\mathbb R} \Prob[R=x] \, dx \nonumber\\
+            &= \E[R] + c \cdot 1 = \E[R] + c \\
+  \E[R + S] &\coloneqq \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[S=x] \cdot x\right) \, dx \nonumber\\
+            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + \int_{\mathbb R} \Prob[S=x] \cdot x \, dx \nonumber\\
+            &= \E[R] + \E[S] \\
+  \E[c \cdot X] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x \cdot c) \, dx \nonumber\\
+            &= c \cdot \int_{\mathbb R} \Prob[R=x] \cdot x \, dx
+            = c \cdot \E[X]
+\end{align}
+%
+Because the expected value operator $\E$ satisfies the same properties in the discrete and continuous case,
+we combine those cases and denote $\E[R]$ for both cases for a random variable $R$.
+
+\subsection{Variance and standard deviation}
+\label{sec:bp-var-sd}
+%
+\emph{Variance} quantifies how strong values are spread out from their population mean:
+\[ \sigma^2 = \Var[R] \coloneqq \E[(R - \mu)^2] \]
+In the discrete case, this is equivalent to,
+\[ \Var[R] = \E\left[\sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a - \mu)\right)^2\right] \]
+and in the continuous case, we have:
+\[ \Var[R] = \E\left[\int_{\mathbb R} \left(\Prob[R=x] \cdot (x + \mu)\right)^2 \, dx\right] \]
+The \emph{standard deviation} is defined as its root:
+\[ \sd = \sqrt{\Var[R]} \]
+
+\subsection{Law of Large Numbers}
+\label{sec:bp-lln}
+%
+The Law of Large Numbers stresses the practical importance of the expected value.
+First, we define the notion of the average value over a sample $A_i$ of size $n$:
+\[ \avg{R}_n \coloneqq \frac1n \sum_{i=0}^n A_i \]
+Then, the Law of Large Numbers states that,
+\[ \lim_{n\to\infty} \avg{R}_n = \E[R] \]
+
+In order to prove this theorem, we use Chebyshev's Inequality, the Weak Law of Large numbers
+and the Borel-Cantelli Lemma.
+
+Consider the continuous case. Let $f$ be a PDF, $a \in \mathbb R_{\geq 0}$, $n \in \mathbb N$ and let $\E[R^n]$ be defined as follows:
+\begin{align*}
+  \E[R^n] &= \int_{\mathbb R} x^n \cdot f(x) \, dx \\
+          &\geq \int_{x \geq a} x^n \cdot f(x) \, dx \\
+          &\geq a^n \int_{x \geq a} f(x) \, dx \\
+          &= a^n \cdot \Prob[X \geq a]
+\end{align*}
+The discrete case follows immediately.
+This concludes the correctness of the following theorem:
+\begin{theorem}[Chebyshev's Inequality Theorem]
+  Let $R$ be a random variable, $a \in \mathbb R_{\geq 0}$ and $n \in \mathbb N$. Then it holds that,
+  \[ \Prob[R \geq a] \leq \frac{1}{a^n} \E[R^n] \]
+\end{theorem}
+
+The next theorem is called Weak Law of Large Numbers.
+\begin{theorem}[Weak Law of Large Numbers, Bernoulli's Theorem]
+  Let $R_i$ be a sequence of independent and identically distributed random variables
+  with common mean $\mean$ and variance $\var$. Let
+  \[
+      S_n \coloneqq \sum_{i=1}^n R_i \hspace{50pt}
+      S_n^* \coloneqq \frac{S_n}{n} - \mean
+  \]
+  Then for any $\varepsilon > 0$,
+  \[ \Prob[S_n^* \geq \varepsilon] \leq \frac{1}{\varepsilon^2} \Var[S^*_n] \]
+
+  TODO: iid should/will be introduced in section~\ref{sec:bp-dist}, but is used here already.
+\end{theorem}
+
+\begin{proof}
+  \begin{align}
+      \E[S^*_n] &= \E\left[\frac{1}{n}\left(R_1 + R_2 + \ldots + R_n\right) - \mu\right] \nonumber\\
+                &= \frac1n \left(\E[R_1] + \E[R_2] + \ldots + \E[R_n]\right) - \E[\mu] \nonumber\\
+                &= \frac{n \cdot \mu}{n} - \mu = 0 \\
+    \Var[S^*_n] &= TODO
+  \end{align}
+\end{proof}
+
+\subsection{Union and intersection of events}
+\label{sec:bp-unin}
+%
+TODO
+
+\subsection{Marginalization}
+\label{sec:bp-marginalization}
+%
+TODO
+
+\subsection{Independence}
+\label{sec:bp-indep}
+%
+TODO
+
+\subsection{Conditional independence}
+\label{sec:bp-cond-indep}
+%
+TODO definition \\
+TODO mutual independence $\neq$ pairwise independence
+
+\subsection{Bayes' Theorem}
+\label{sec:bp-bayes}
+%
+\begin{theorem}[Bayes' Theorem]
+  Let $A$ and $B$ be two events and $\Prob[B] \neq 0$. Then:
+  \[ \Prob[A|B] = \frac{\Prob[B|A] \cdot \Prob[A]}{\Prob[B]} \]
+\end{theorem}
+\begin{proof}
+  In section~\ref{sec:bp-indep}, we showed the following relation between marginal and conditional probability:
+  \[ \Prob[A,B] = \Prob[B|A] \cdot \Prob[A] = \Prob[A|B] \cdot \Prob[B] \]
+  Bayes' theorem follows immediately:
+  \[ \frac{\Prob[B|A] \cdot \Prob[A]}{\Prob[B]} = \Prob[A|B] \]
+\end{proof}
+
+Bayes' Theorem is fundamental to theory we will cover in the following.
+$\Prob[A]$ is called \emph{prior probability} and $\Prob[A|B]$ is called \emph{posterior probability} in the Bayesian interpretation.
+The names derive from the fact, that $\Prob[A]$ is known beforehand in most applications and $\Prob[A|B]$ is the degree of belief in $A$ after $B$ happened.
+
+\section{Probability distributions}
+\label{sec:bp-dist}
+%
+TODO
+
+\section{Graphical models}
+\label{sec:bp-graphical-models}
+%
+Show symmetry, decomposition, weak union and contraction, via Dawid et al.
+
+\section{Example: Polynomial curve fitting problem}
+\label{sec:bp-curve-fitting}
+%
+\subsection{The problem}
+%
+% TODO: visualization
+In the following, we introduce the curve fitting problem similar to \cite[p.~4~ff.]{Bishop}.
+The problem is defined as follows:
+
+\begin{problem}[Polynomial curve fitting problem]
+  Consider a polynomial of arbitrary degree.
+
+  \begin{description}
+  \item{Given}
+  $x = (x_1, \ldots, x_n)^N$ as a vector of $N$ x-values and
+  $t = (t_1, \ldots, t_n)^N$ as the corresponding y-values drawn from the polynomial.
+  Furthermore let $E(w)$ be an error function for given polynomial coefficients $w$.
+
+  \item{Find}
+  a polynomial with coefficients $w$ which approximates values $t$ minimizing $E(w)$.
+  \end{description}
+\end{problem}
+
+The degree of the polynomial is unknown on purpose.
+\emph{Model selection} is a branch of Machine Learning dedicated to finding appropriate models for given problems.
+So for polynomial degree choice for our curve fitting problem, we refer to research literature in Model Selection. % TODO: provide useful references for Curve Fitting
+Popular error functions include
+\begin{align}
+  E(w) &= \frac12 \sum_{n=1}^N \left(y(x_n, w) - t_n\right)^2 \tag{Mean squared error, MSE} \\
+  E(w) &= \sqrt{\frac{1}{N} \sum_{n=1}^N (y(x_n, w) - t_n)^2} \tag{Root mean square, RMS} \\
+  E(w) &= \frac1N \sum_{n=1}^N (y(x_n, w) - t_n)              \tag{Mean signed deviation, MSD}
+\end{align}
+
+\subsection{Overfitting}
+\label{sec:bp-overfitting}
+%
+Machine Learning distinguishes between a \emph{training} and \emph{validation} dataset as input.
+It uses the training set to learn which output is desired for some given input.
+Therefore all elements of the training set are labelled such that the error in the output can be quantified.
+\emph{Overfitting} describes the situation, when the learning algorithm approximates the output with little error,
+but input from the validation set (which contains different inputs) is computed with high error.
+
+TODO: visualization
+
+\subsection{Regularization as countermeasure}
+\[ E(w) = \frac12 \sum_{n=1}^N (y(x_n, w) - t_n)^2 + \frac{\lambda}{2} \abs{w}^2 \]
+
+% introduce gaussian distribution to every data point
+
+We now model the problem from a probabilistic view:
+
+\subsection{Maximum Likelihood Estimator}
+%
+% In particular, explain a theoretical reason of adding the term $|w|^2$ for
+% the MLE problem in terms of the Baysian theorem.
+%
+The Maximum Likelihood Estimator (MLE) is a technique to estimate the parameters of a probability distribution.
+It maximizes the likelihood that the given data actually occurs.
+
+\begin{theorem}
+  Consider input data $x$, mean $\mu$ and variance $\sigma^2$:
+  \[ \ln{\Prob[x | \mu, \sigma^2]} = -\frac1{2\sigma^2} \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi) \]
+  Then
+  $\mu_{\text{ML}} = \frac{1}{N} \cdot \sum_{n=1}^N x_n$ for maximized $\mu$ and \\
+    $\sigma_{\text{ML}} = \frac{1}{N}\cdot \sum_{n=1}^N (x_n - \mu_{\text{ML}})^2$ for maximized $\sigma^2$
+\end{theorem}
+
+So we want to determine the 2 parameters of a Gaussian distribution, namely $\mu$ and $\sigma^2$, in the maximum likelihood case.
+We begin with $\mu$:
+
+\begin{proof}
+\begin{enumerate}
+  \item Derive $\ln{\Prob[x| \mu, \sigma^2]}$ for $\mu$
+    \begin{align*}
+      \frac\partial{\partial \mu} \ln{\Prob[x | \mu, \sigma^2]}
+      &= \frac\partial{\partial \mu} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi)\right) \\
+      &= \frac\partial{\partial \mu} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n^2 - 2 x_n \mu + \mu^2) - \frac{N}{2} \ln{\sigma^2} - \frac{N}{2} \ln(2\pi)\right) \\
+      &= -\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (-2x_n + 2\mu) \\
+      &= -\frac1{\sigma^2} \cdot \sum_{n=1}^N (\mu - x_n)
+    \end{align*}
+  \item Set result zero
+    \[ 0 = -\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (\mu - x_n) = \sum_{n=1}^N (\mu - x_n) = N \cdot \mu - \sum_{n=1}^N x_n \]
+    \[ \implies \mu_{\text{ML}} = \frac1N \cdot \sum_{n=1}^N x_n \qquad \text{commonly called \enquote{sample mean}} \]
+\end{enumerate}
+\end{proof}
+
+We continue with $\sigma^2$ and use the same approach:
+
+\begin{proof}
+  \begin{enumerate}
+  \item Derive $\ln{\Prob[x | \mu, \sigma^2]}$ for $\sigma^2$
+    \begin{align*}
+      \frac{\partial}{\partial \sigma^2} \ln{\Prob[x | \mu, \sigma^2]}
+      &= \frac{\partial}{\partial \sigma^2} \left(-\frac{1}{2\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}2 \ln{\sigma^2} - \frac{N}2 \ln(2\pi)\right) \\
+      &= \frac{1}{2\sigma^4} \cdot \sum_{n=1}^N (x_n - \mu)^2 - \frac{N}{2} \cdot \frac{1}{\sigma^2} \\
+      &= \frac{1}{2\sigma^2} \left(\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - N\right)
+    \end{align*}
+  \item Set result zero
+    \begin{align*}
+      0 &= \frac{1}{2\sigma^2} \left(\frac{1}{\sigma^2} \cdot \sum_{n=1}^N (x_n - \mu)^2 - N\right) \\
+      N \cdot \sigma^2 &= \sum_{n=1}^N (x_n - \mu)^2 \\
+      \sigma^2_{\text{ML}} &= \frac{1}{N} \cdot \sum_{n=1}^N (x_n - \mu)^2 \qquad \text{commonly called \enquote{sample variance}}
+    \end{align*}
+  \end{enumerate}
+\end{proof}
+
+And now we derive the precision parameter $\beta$ in the maximum likelihood case:
+
+\begin{theorem}
+  Given
+  \[ \ln{\Prob[t | x, w, \beta]} = -\frac{\beta}{2} \cdot \sum_{n-1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}2 \ln{\beta} - \frac{N}{2} \ln(2\pi) \]
+  then find
+  \[ \frac{1}{\beta_{\text{ML}}} = \frac{1}{N} \cdot \sum_{n=1}^N (y(x_n, w_{\text{ML}}) - t_n)^2 \] by maximizing $\beta$
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+  \item Derive $\ln{\Prob[t | x,w,\beta]}$ with $\beta$
+    \begin{align*}
+      \frac{\partial}{\partial \beta} \ln{\Prob[t | x,w,\beta]}
+      &= \frac{\partial}{\partial \beta} \left(-\frac{\beta}{2} \sum_{n=1}^N (y(x_n,w) - t_n)^2 + \frac{N}{2} \ln\beta - \frac{N}{2} \ln(2\pi)\right) \\
+      &= -\frac12 \cdot \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2} \cdot \frac1\beta
+    \end{align*}
+  \item Set result zero
+    \begin{align*}
+      0 &= -\frac{1}{2} \cdot \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 + \frac{N}{2\beta} \\
+      \frac{N}{\beta} &= \sum_{n=1}^N \left(y(x_n,w) - t_n\right)^2 \\
+      \frac{1}{\beta_{\text{ML}}} &= \frac{1}{N} \cdot \sum_{n=1}^N (y(x_n,w) - t_n)^2
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+

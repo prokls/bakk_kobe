@@ -1,0 +1,218 @@
+\documentclass[a4paper,oneside]{book}
+\usepackage{fontspec}
+\usepackage{bm}
+\usepackage[small,sf,bf]{titlesec}
+\usepackage{polyglossia}\setdefaultlanguage{english}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage[autostyle=true]{csquotes}
+\usepackage[backend=bibtex,natbib=true]{biblatex}
+\usepackage{hyperref} % dep: after biblatex
+\usepackage{microtype}
+\usepackage{ntheorem}  % dep: before thmtools
+\usepackage{thmtools}
+\usepackage{xunicode}
+\usepackage{xcolor}
+\usepackage{metalogo}
+\usepackage[fallback]{xeCJK}
+\usepackage{mathtools}
+
+\bibliography{thesis}
+
+\newcommand\abs[1]{\left|\hspace{0.6999pt}#1\hspace{0.6999pt}\right|}
+\newcommand\set[1]{\left\{#1\right\}}
+\newcommand\avg[1]{\overline{#1}}
+\newcommand\E{\mathbb E}
+\newcommand\mean{\mu}
+\newcommand\Nat{\mathbb N}
+\newcommand\Prob{\mathbb P}
+\newcommand\Var{\mathbb V}
+\newcommand\var{\sigma^2}
+\newcommand\sd{\sigma}
+\newcommand\card[1]{\left|\hskip .06667em #1\hskip .06667em \right|}
+
+\newcommand\theauthor{Lukas Prokop}
+\newcommand\authormail{admin@lukas-prokop.at}
+\newcommand\institute{Department of Mathematics}
+\newcommand\university{University of Kobe, Japan}
+\title{Machine Learning using Bayesian statistics and Neural networks}
+\author{\theauthor}
+\date{Oct 2016 to 2017}
+
+\definecolor{linkcolor}{cmyk}{0.68,0.00,0.71,0.39}
+\definecolor{citecolor}{cmyk}{0.60,0.00,0.75,0.51}
+\definecolor{urlcolor}{cmyk}{0.59,0.00,0.76,0.44}
+
+\defaultfontfeatures{Ligatures=TeX}%,Numbers=OldStyle}
+
+\setromanfont{Andada}
+\setsansfont{DejaVu Sans}
+\setCJKmainfont{IPAGothic}
+\setCJKsansfont{IPAGothic}
+\setCJKfallbackfamilyfont{rm}{IPAGothic}
+
+\newfontfamily\deja{DejaVu Sans}
+
+\hypersetup{
+  pdfpagemode={UseOutlines},
+  pdftitle={Bayesian statistics and Neural networks},
+  pdfauthor={Lukas Prokop},
+  pdfkeywords={bachelor thesis, Machine learning, Bayesian statistics, probability theory, Neural networks},
+  bookmarksopen=true,
+  bookmarksopenlevel=0,
+  hypertexnames=false,
+  colorlinks=true,
+  citecolor=citecolor,
+  linkcolor=linkcolor,
+  urlcolor=urlcolor,
+  pdfstartview={FitV},
+  unicode,
+  breaklinks=true
+}
+
+% theorem design via http://tex.stackexchange.com/a/262573
+\newlength\exampleindent
+\setlength{\exampleindent}{20pt}
+\theorembodyfont{\normalfont}
+\theoremindent\exampleindent
+\theoremrightindent 10pt
+\theoremstyle{plain}
+
+%\newtheoremstyle{mytheoremstyle}% name
+%    {\topsep}% Space above
+%    {\topsep}% Space below
+%    {\itshape}% Body font
+%    {}% Indent amount
+%    {\normalfont}% Theorem head font
+%    {.}% Punctuation after theorem head
+%    {.5em}% Space after theorem head
+%    {}% Theorem head spec (can be left empty, meaning ‘normal’)
+
+%\theoremstyle{mytheoremstyle}
+
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proof}{Proof}
+\newtheorem{problem}{Problem}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\begin{document}
+\frontmatter
+\begin{titlepage}
+  \begin{center}
+    \textsc{\Large Bachelor Thesis, Mathematics}\\[1cm]
+
+    {\huge \bfseries ``Machine Learning using \\ Bayesian statistics and Neural networks''\\}%
+    \vspace{1.7cm}%
+
+    \large \textit{A thesis submitted in fulfillment of the requirements \\ for the bachelor's degree in Mathematics}%
+    \vspace{1cm}%
+
+    \begin{minipage}[t]{0.6\textwidth}%
+      \centering\large
+      \begin{tabular}{rl}
+        Author:       & \href{mailto:\authormail}{\theauthor} \\
+        Supervisor:   & 高山・信毅 {\deja ※} \\
+        Supervisor:   & Bredies Kristian †
+      \end{tabular}
+    \end{minipage}%
+    \vspace{1cm}%
+
+    \begin{minipage}[t]{0.6\textwidth}%
+     \centering
+      {\deja ※} University of Kobe, Japan \\
+      † University of Graz, Austria
+    \end{minipage}%
+    \vspace{3cm}
+
+    {\large Version: \today}\\[14pt]
+    \begin{minipage}{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/kobe.pdf}
+    \end{minipage}
+    \vfill
+  \end{center}
+\end{titlepage}
+\thispagestyle{empty}
+
+\newcommand{\nextoddpage}{
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifdef{\phantomsection}{\phantomsection}{}
+}
+
+\newenvironment{declaration}{
+  {\nextoddpage}
+  %{\space Affidavit}
+  {\thispagestyle{plain}}
+  {\null\vfil}
+  {\noindent%\huge\bfseries{
+    \huge{\textsc{Affidavit}}
+  %}
+  \par\vspace{10pt}}
+}{}
+
+\NewDocumentEnvironment{acknowledgements}{}{%
+  {\nextoddpage}
+  %\tttypeout{\acknowledgementname}
+  \thispagestyle{plain}
+  \begin{center}{
+      %\huge\textit{
+      \Large\textsc{Acknowledgements}
+      %}
+    \par}\end{center}
+}{\vfil\vfil\null}
+
+\NewDocumentEnvironment{abstract}{}{%
+  {\nextoddpage}
+  \thispagestyle{plain}
+  \begin{center}{\huge\textsc{Abstract}\par}\end{center}
+}{\vfil\vfil\null}
+
+\clearpage
+\ifodd\value{page}\else\hbox{}\newpage\fi
+
+\begin{abstract}%
+  \parskip5pt
+  Abstract to be done\dots
+
+  \vspace{3pt}
+  \textbf{Keywords:}
+    Machine learning, Bayesian statistics, Bayes' Theorem, Probability theory, Neural networks
+\end{abstract}
+
+\begin{abstract}%
+  \parskip5pt
+  Abstract in Japanese to be done\dots
+
+  \vspace{3pt}
+  \textbf{Keywords:}
+    Machine learning, Bayesian statistics, Bayes' Theorem, Probability theory, Neural networks
+\end{abstract}
+
+\begin{acknowledgements}%
+  \parskip5pt
+  Acknowledgements to be done\dots
+
+  どうもありがとうございました。
+\end{acknowledgements}
+
+All source codes are available at \href{http://lukas-prokop.at/proj/nn}{lukas-prokop.at/proj/nn}
+and published under terms and conditions of Free/Libre Open Source Software.
+This document was printed with \XeLaTeX{} in the Andada typeface.
+
+\tableofcontents
+\mainmatter
+
+\input{bayesian}
+\input{nn}
+%\input{appendix}
+
+\backmatter
+\printbibliography
+%\listoffigures
+%\listoftables
+%\printindex
+
+\end{document}
