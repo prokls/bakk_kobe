@@ -7,7 +7,12 @@
 \usepackage{geometry}
 \usepackage[autostyle=true]{csquotes}
 \usepackage[backend=bibtex,natbib=true]{biblatex}
-\usepackage{hyperref} % dep: after biblatex
+\usepackage[
+    pdfauthor={Lukas Prokop},
+    pdftitle={Bayesian statistics and Neural networks},
+    pdfsubject={Bayesian probability theory and Neural networks applied to character recognition},
+    pdfkeywords={Bayes, probability, neural network, classifier, character, unicode, kanji, mathematical expressions}
+    ]{hyperref} % dep: after biblatex
 \usepackage{microtype}
 \usepackage{ntheorem}  % dep: before thmtools
 \usepackage{thmtools}
@@ -28,11 +33,17 @@
 \newcommand\Prob{\mathbb P}
 \newcommand\Var{\mathbb V}
 \DeclareMathOperator\Cov{Cov}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \newcommand\var{\sigma^2}
 \newcommand\sd{\sigma}
+\newcommand\transpose{T}
 \newcommand\card[1]{\left|\hskip .06667em #1\hskip .06667em \right|}
 
-\newcommand\theauthor{Lukas Prokop}
+\newcommand\symrepr[1]{\texttt{#1}}
+\newcommand\usymrepr[2]{\texttt{#1} ({#2})}
+\newcommand\TODO[1]{\textbf{ToDo:} #1 \par}
+
+\renewcommand\theauthor{Lukas Prokop}
 \newcommand\authormail{admin@lukas-prokop.at}
 \newcommand\institute{Department of Mathematics}
 \newcommand\university{University of Kobe, Japan}
@@ -98,6 +109,9 @@
 \newtheorem{problem}{Problem}
 
 \renewcommand{\baselinestretch}{1.2}
+
+\setlength{\parindent}{0pt}%
+\setlength{\parskip}{\baselineskip}%
 
 \begin{document}
 \frontmatter
@@ -176,16 +190,43 @@
 
 \begin{abstract}%
   \parskip5pt
-  Abstract to be done\dots
+  Machine Learning is a vivid research area. Machine Learning fundamentally changes
+  the idea that programmers mechanically write programs in order to perform
+  tasks such as classification, regression, clustering, density estimation, and model selection.
+  In supervised learning, machines learn by observing test vectors and their desired output. 
+  They successively adapt their estimation of the input to return desired outputs for actual data.
+  Validation data is used to verify whether this estimate performs good on input,
+  the machine has not learned about. Recent efforts such as Google DeepMind's AlphaGo
+  or Neural Algorithms of Artistic Style (by Leon A. Gatys, Alexander S. Ecker, and Matthias Bethge)
+  show the success of Machine Learning in real-world applications.
+  This thesis will cover Bayesian and Neural Networks as two branches of Machine Learning.
+
+  Bayesian networks consider probabilities as quantification of belief.
+  Bayes' Theorem is used as a very generic tool to establish a relation between the prior, a likelihood, and the posterior belief.
+  For example, consider a set of random variables modelling symptoms of a disease.
+  Probabilistic dependencies between these symptoms exist inherently.
+  For a set of sample patients, the belief in experiencing certain symptoms and a certain disease is specified.
+  The machine can now learn these input-output relationships.
+  In the following for a new patient, the belief in symptoms is provided
+  and the machine returns a belief whether the patient suffers from a certain disease.
+
+  Neural networks are another branch of Machine Learning. Neural networks consist of multiple
+  layers of neurons. Input signals traverse these layers and using sophisticated algorithms,
+  neuron weights are adjusted so that neurons learn which input signals belong to which
+  output class. This research area is prominent since the 1970s, when Paul Werbos described
+  the Backpropagation algorithm in is Ph.D. thesis.
+
+  This bachelor thesis sums up fundamental theorems and theoretical background of the aforementioned fields.
+  Furthermore it covers technical details of my implementation to recognize mathematical expressions.
 
   \vspace{3pt}
   \textbf{Keywords:}
-    Machine learning, Bayesian statistics, Bayes' Theorem, Probability theory, Neural networks
+    Machine learning, Bayesian network, Bayesian statistics, Bayes' Theorem, probability theory, Neural networks
 \end{abstract}
 
 \begin{abstract}%
   \parskip5pt
-  Abstract in Japanese to be done\dots
+  抽象は日本語で仕上がます… \dots
 
   \vspace{3pt}
   \textbf{Keywords:}
@@ -194,12 +235,20 @@
 
 \begin{acknowledgements}%
   \parskip5pt
-  Acknowledgements to be done\dots
+  I would like to thank my advisor 高山先生 of Kobe University for his continued effort during my studies.
+  Thank you for the valuable input and one year of academic support.
+
+  I would also like to thank my Austrian advisor Bredies Kristian for a final revision and grading
+  at University of Graz.
+
+  During my year abroad in Japan, I met lot of new people and gained valuable experiences.
+  But I wouldn't have taken the challenge without Martina. Thank you for staying with me
+  and sharing your experiences continuously.
 
   どうもありがとうございました。
 \end{acknowledgements}
 
-All source codes are available at \href{http://lukas-prokop.at/proj/nn}{lukas-prokop.at/proj/nn}
+All source codes are available at \href{http://lukas-prokop.at/proj/bakk\_kobe}{lukas-prokop.at/proj/bakk\_kobe}
 and published under terms and conditions of Free/Libre Open Source Software.
 This document was printed with \XeLaTeX{} in the Andada typeface.
 
