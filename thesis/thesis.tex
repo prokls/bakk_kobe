@@ -34,6 +34,8 @@
 \newcommand\Var{\mathbb V}
 \DeclareMathOperator\Cov{Cov}
 \DeclareMathOperator*{\argmin}{arg\,min}
+%\DeclarePairedDelimiter\norm{\lvert}{\rvert}
+\newcommand\norm[1]{\left\lvert{#1}\right\rvert}
 \newcommand\var{\sigma^2}
 \newcommand\sd{\sigma}
 \newcommand\transpose{T}
@@ -47,6 +49,7 @@
 \newcommand\authormail{admin@lukas-prokop.at}
 \newcommand\institute{Department of Mathematics}
 \newcommand\university{University of Kobe, Japan}
+
 \title{Machine Learning using Bayesian statistics and Neural networks}
 \author{\theauthor}
 \date{Oct 2016 to 2017}
@@ -82,6 +85,8 @@
   breaklinks=true
 }
 
+\allowdisplaybreaks
+
 % theorem design via http://tex.stackexchange.com/a/262573
 \newlength\exampleindent
 \setlength{\exampleindent}{20pt}
@@ -105,6 +110,7 @@
 \newtheorem{example}{Example}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
 \newtheorem{proof}{Proof}
 \newtheorem{problem}{Problem}
 
@@ -202,7 +208,8 @@
   This thesis will cover Bayesian and Neural Networks as two branches of Machine Learning.
 
   Bayesian networks consider probabilities as quantification of belief.
-  Bayes' Theorem is used as a very generic tool to establish a relation between the prior, a likelihood, and the posterior belief.
+  Bayes' Theorem is used as a very generic tool to establish a relation
+  between the prior, a likelihood, and the posterior belief.
   For example, consider a set of random variables modelling symptoms of a disease.
   Probabilistic dependencies between these symptoms exist inherently.
   For a set of sample patients, the belief in experiencing certain symptoms and a certain disease is specified.

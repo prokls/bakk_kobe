@@ -1,6 +1,6 @@
 \chapter{Bayesian theory}
 \section{Probability theory and statistics}
-\subsection{$\boldsymbol\sigma$-algebra}
+\subsection[Sigma-algebra]{$\boldsymbol\sigma$-algebra}
 %
 The following mathematical object is necessary in order to define probability properly:
 
@@ -58,18 +58,18 @@ Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
 The following properties are satisfied:
 \begin{align}
   \E[c]     &\coloneqq c \\
-  \E[R + c] &\coloneqq \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a + c)\right) \nonumber\\
-            &= \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot a\right) + \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot c\right) \nonumber\\
-            &= \E[R] + c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \nonumber\\
+  \E[R + c] &\coloneqq \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a + c)\right) \notag\\
+            &= \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot a\right) + \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot c\right) \notag\\
+            &= \E[R] + c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \notag\\
             &= \E[R] + c \cdot 1 = \E[R] + c \\
   \E[R + S] &\coloneqq \sum_{a \in (\mathcal A_R \cup \mathcal A_S)}
               \begin{cases}
                 \Prob[R=a] \cdot a & \text{if } a \in A_R \\
                 \Prob[S=a] \cdot a & \text{if } a \in A_S
-              \end{cases}\nonumber\\
-            &= \sum_{a \in \mathcal A_R} \Prob[R=a] \cdot a + \sum_{a \in \mathcal A_S} \Prob[S=a] \cdot a \nonumber\\
+              \end{cases}\notag\\
+            &= \sum_{a \in \mathcal A_R} \Prob[R=a] \cdot a + \sum_{a \in \mathcal A_S} \Prob[S=a] \cdot a \notag\\
             &= \E[R] + \E[S] \\
-  \E[c \cdot R] &\coloneqq \sum_{a \in \mathcal A} \Prob[R=a] \cdot (c \cdot a) \nonumber\\
+  \E[c \cdot R] &\coloneqq \sum_{a \in \mathcal A} \Prob[R=a] \cdot (c \cdot a) \notag\\
             &= c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \cdot a = c \cdot \E[R]
 \end{align}
 
@@ -92,6 +92,12 @@ If $f$ satisfies the properties \ref{prop:pdf1} and \ref{prop:pdf2}, $f$ is call
 \begin{align}
   \Prob[a \leq R \leq b] &\coloneqq \int_a^b f(x) \, dx
 \end{align}
+
+% TODO: added from another section. is it consistent here?
+Probabilities are linear. Hence
+\begin{align}
+  \Prob\left[\bigcup A\right] &= \sum \Prob\left[A\right] \label{eq:prob-linear}
+\end{align}
 %
 \index{Expected value}
 The \emph{expected value} in the continuous model is defined as,
@@ -104,15 +110,15 @@ Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
 The expected value satisfies:
 %
 \begin{align}
-  \E[c]     &\coloneqq c \\
-  \E[R + c] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x + c) \, dx \nonumber\\
-            &= \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[R=x] \cdot c\right) \, dx \nonumber\\
-            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + c \cdot \int_{\mathbb R} \Prob[R=x] \, dx \nonumber\\
+  \E[c]     &\coloneqq c \label{eq:Ec} \\
+  \E[R + c] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x + c) \, dx \notag\\
+            &= \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[R=x] \cdot c\right) \, dx \notag\\
+            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + c \cdot \int_{\mathbb R} \Prob[R=x] \, dx \notag\\
             &= \E[R] + c \cdot 1 = \E[R] + c \\
-  \E[R + S] &\coloneqq \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[S=x] \cdot x\right) \, dx \nonumber\\
-            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + \int_{\mathbb R} \Prob[S=x] \cdot x \, dx \nonumber\\
+  \E[R + S] &\coloneqq \int_{\mathbb R} \left(\Prob[R=x] \cdot x + \Prob[S=x] \cdot x\right) \, dx \notag\\
+            &= \int_{\mathbb R} \Prob[R=x] \cdot x \, dx + \int_{\mathbb R} \Prob[S=x] \cdot x \, dx \notag\\
             &= \E[R] + \E[S] \label{eq:Evv} \\
-  \E[c \cdot X] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x \cdot c) \, dx \nonumber\\
+  \E[c \cdot X] &\coloneqq \int_{\mathbb R} \Prob[R=x] \cdot (x \cdot c) \, dx \notag\\
             &= c \cdot \int_{\mathbb R} \Prob[R=x] \cdot x \, dx
             = c \cdot \E[X] \label{eq:Ecv}
 \end{align}
@@ -124,7 +130,9 @@ we combine those cases and denote $\E[R]$ for both cases with a random variable 
 \label{sec:bp-var-sd}
 %
 \index{Variance}
-\emph{Variance} quantifies how strong values are spread out from their population mean:
+\emph{Variance} quantifies how strong values are spread out from the expected value $\E[R]$:
+\[ \sigma^2 \coloneqq \E\left[(R - \E[R])^2\right] \]
+Considering the entire population, the variance can also quantify over the population mean $\mu$:
 \[ \sigma^2 = \Var[R] \coloneqq \E[(R - \mu)^2] \]
 In the discrete case, this is equivalent to,
 \[ \Var[R] = \E\left[\sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a - \mu)\right)^2\right] \]
@@ -138,126 +146,157 @@ The \emph{standard deviation} is defined as its second root:
 %
 \index{covariance}
 \emph{Covariance} measures the joint variability of two given random variables.
+It is defined as:
+\begin{align}
+  \Cov[X,Y]
+    &= \E[(X - \E[X])(Y - \E[Y])] \label{eq:cov}\\
+    &= \E[XY - Y\cdot\E[X] - X\cdot\E[Y] + \E[X]\E[Y]] \notag\\
+    &= \E[XY] - \E[X]\cdot\E[Y] \label{eq:cov-exy}
+\end{align}
 %
-In general, it is defined as:
-\[ \Cov(X,Y) = \E[(X - \E[X])(Y - \E[Y])] \]
-%
+If $X$ and $Y$ are independent (compare with Section~\ref{sec:bp-indep}), then the covariance is zero.
+\begin{align}
+  \Cov[X,Y] &= \E[XY] - \E[X] \cdot \E[Y] = \E[X] \cdot \E[Y] - \E[X] \cdot \E[Y] = 0 \label{eq:CovXY0}
+\end{align}
 We will exploit the following properties:
 \begin{align}
-  \Cov(X,Y) &= \E[(X - \E[X])(Y - \E[Y])] = \E[(Y - \E[Y])(X - \E[X])] = \Cov(Y,X) \\
-  \Cov(X,X) &= \E[(X - \E[X])^2] = \Var[X]
+  \Cov[X,Y] &= \E[(X - \E[X])(Y - \E[Y])] = \E[(Y - \E[Y])(X - \E[X])] = \Cov[Y,X] \\
+  \Cov[X,X] &= \E[(X - \E[X])^2] = \Var[X]
 \end{align}
 %
 Let $X$ be a set of $n$ independent variables $X_{1 \leq i \leq n}$.
 \begin{align}
   \Var\left[\sum_{i=1}^n X_i\right]
-    &= \E\left[\left(\sum_{i=1}^n X_i - \E\left[\sum_{i=1}^n X_i\right]\right)^2\right] \nonumber \\
-    &= \E\left[\left(\sum_{i=1}^n \left(X_i - \E\left[X_i\right]\right)\right)^2\right] \nonumber \\
-    &= \E\left[\sum_{i=1}^n \left(X_i - \E[X_i]\right) \cdot \sum_{j=1}^n \left(X_i - \E[X_i]\right)\right] \nonumber \\
-    &= \E\left[\sum_{j=1}^n \left(\sum_{i=1}^n (X_i - \E[X_i])\right) (X_j - \E[X_j]) \right] \nonumber \\
-    &= \E\left[\sum_{i,j \in [1,n]} \left(X_i - \E[X_i]\right) \left(X_j - \E[X_j]\right)\right] \nonumber
-\end{align}
-\begin{align}
-    &= \sum_{i,j \in [1,n]} \E[(X_i - \E[X_i])(X_j - \E[X_j])] \nonumber \\
-    &= \sum_{i,j \in [1,n]} \Cov(X_i, X_j) \nonumber \\
-    &= \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov(X_i, X_i) + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov(X_i, X_j) \nonumber \\
-    &= \sum_{i=1}^n \Var[X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} (X_i, X_j) \nonumber \\
-    &= \sum_{i=1}^n \Var[X_i] + 2 \cdot \sum_{1 \leq i < j \leq n} \Cov(X_i, X_j) \label{eq:sumVarCov}
+    &= \E\left[\left(\sum_{i=1}^n X_i - \E\left[\sum_{i=1}^n X_i\right]\right)^2\right] \notag \\
+    &= \E\left[\left(\sum_{i=1}^n \left(X_i - \E\left[X_i\right]\right)\right)^2\right] \notag \\
+    &= \E\left[\sum_{i=1}^n \left(X_i - \E[X_i]\right) \cdot \sum_{j=1}^n \left(X_i - \E[X_i]\right)\right] \notag \\
+    &= \E\left[\sum_{j=1}^n \left(\sum_{i=1}^n (X_i - \E[X_i])\right) (X_j - \E[X_j]) \right] \notag \\
+    &= \E\left[\sum_{i,j \in [1,n]} \left(X_i - \E[X_i]\right) \left(X_j - \E[X_j]\right)\right] \notag \\
+    &= \sum_{i,j \in [1,n]} \E[(X_i - \E[X_i])(X_j - \E[X_j])] \notag \\
+    &= \sum_{i,j \in [1,n]} \Cov[X_i, X_j] \notag \\
+    &= \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_j] \notag \\
+    &= \sum_{i=1}^n \Var[X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_j] \notag \\
+    &= \sum_{i=1}^n \Var[X_i] + 2 \cdot \sum_{1 \leq i < j \leq n} \Cov[X_i, X_j] \label{eq:sumVarCov}
 \end{align}
 
 \subsection{Law of Large Numbers}
 \label{sec:bp-lln}
 %
 The Law of Large Numbers stresses the practical importance of the expected value.
-\begin{theorem}[Law of Large Numbers]
+\begin{theorem}[Law of Large Numbers]\label{thm:lln}
   First, we define the notion of the average value over a sample $A_i$ of size $n$:
   \[ \avg{R}_n \coloneqq \frac1n \sum_{i=0}^n A_i \]
   Then, the Law of Large Numbers states that,
   \[ \lim_{n\to\infty} \avg{R}_n = \E[R] \]
 \end{theorem}
 
-In order to prove this theorem, we use Chebyshev's Inequality, the Weak Law of Large numbers
-and the Borel-Cantelli Lemma.
+In order to prove this theorem, we use Chebyshev's Inequality, the Weak Law of Large numbers,
+Borel-Cantelli Lemma and the Strong Law of Large Numbers. The latter is considered equivalent
+to the Law of Large numbers~\footnote{
+  Depending on your requirements of certainty, the Weak Law of Large numbers might be already
+  considered equivalent to the Law of Large Numbers (Theorem~\ref{thm:lln}), but we look
+  for the Strong Law of Large Numbers in this thesis.
+}. Our proof structure is based on Craig A. Tracy's~\cite{cnfgen}\footnote{
+  Please recognize that there is a small typographical error on page~3.
+  \enquote{$S_n(\omega) = 1$ for every $n$} should be \enquote{$X_n(\omega) = 1$ for every $n$}.
+}.
 
-Consider the continuous case. Let $f$ be a PDF, $a \in \mathbb R_{\geq 0}$, $n \in \mathbb N$ and let $\E[R^n]$ be defined as follows:
+\subsubsection{Chebyshev's Inequality}
+\label{sec:bp-chebyshev}
+%
+Consider the continuous case.
+Let $R$ be a random variable, $f$ be a PDF over $R$, $|\cdot|$ be a norm,
+$a \in \mathbb R_{\geq 0}$, $p \in \mathbb N$ and let $\E[\norm R^p]$ be defined as follows:
 \begin{align*}
-  \E[R^n] &= \int_{\mathbb R} x^n \cdot f(x) \, dx \\
-          &\geq \int_{x \geq a} x^n \cdot f(x) \, dx \\
-          &\geq a^n \int_{x \geq a} f(x) \, dx \\
-          &= a^n \cdot \Prob[R \geq a]
+  \E[\norm{R}^p]
+          = \int\limits_{\mathbb R} \norm{x}^p \cdot f(x) \, dx 
+          \geq \int\limits_{\norm{x} \geq a} x^p \cdot f(x) \, dx 
+          \geq a^p \int\limits_{\norm{x} \geq a} f(x) \, dx 
+          = a^p \cdot \Prob[\norm{R} \geq a]
 \end{align*}
 The discrete case follows immediately.
 This concludes the correctness of the following theorem:
-\begin{theorem}[Chebyshev's Inequality Theorem]
-  Let $R$ be a random variable, $a \in \mathbb R_{\geq 0}$ and $n \in \mathbb N$. Then it holds that,
-  \[ \Prob[R \geq a] \leq \frac{1}{a^n} \E[R^n] \]
+\begin{theorem}[Chebyshev's Inequality Theorem]\label{thm:chebyshev}
+  Let $R$ be a random variable, $\norm{\cdot}$ be a norm, $a \in \mathbb R_{\geq 0}$ and $p \in \mathbb N$ is arbitrary.
+  Assume $\E[\norm R^p] < \infty$.
+  Then it holds that,
+  \[ \Prob[\norm{R} \geq a] \leq \frac{1}{a^p} \E[\norm{R}^p] \]
 \end{theorem}
 
+\subsubsection{Weak Law of Large Numbers}
+\label{sec:bp-weak-law}
+%
 The next theorem is called Weak Law of Large Numbers.
-\begin{theorem}[Weak Law of Large Numbers, Bernoulli's Theorem]
+\begin{theorem}[Weak Law of Large Numbers, Bernoulli's Theorem]\label{thm:weak-lln}
   Let $R_i$ be a sequence of independent and identically distributed random variables
-  (see section~\ref{sec:bp-dist} for a definition of i.i.d.)
+  (see section~\ref{sec:bp-iid} for a definition of i.i.d.)
   with common mean $\mean$ and variance $\var$. Let
   \[
       S_n \coloneqq \sum_{i=1}^n R_i \hspace{50pt}
       T_n \coloneqq \frac{S_n}{n} - \mean
   \]
   Then for any $\varepsilon > 0$,
-  \[ \lim_{n\to\infty} \Prob[T_n \geq \varepsilon] = 0 \]
+  \[ \lim_{n\to\infty} \Prob[\norm{T_n} \geq \varepsilon] = 0 \]
 \end{theorem}
 
 \begin{proof}
+  First, we determine the expected values.
   \begin{align}
-      \E[S_n] &= \E\left[\sum_{i=1}^n R_i\right] = \sum_{i=1}^n \E[R_i] = \sum_{i=1}^n \mu = n \cdot \mu & \eqref{eq:Evv} \\
-      \E[T_n] &= \E\left[\frac{1}{n}\left(R_1 + R_2 + \ldots + R_n\right) - \mu\right] \nonumber\\
-              &= \frac1n \left(\E[R_1] + \E[R_2] + \ldots + \E[R_n]\right) - \E[\mu] & \eqref{eq:Ecv} \nonumber\\
-              &= \frac{n \cdot \mu}{n} - \mu = 0 \label{eq:tn0}
+      \E[S_n] &= \E\left[\sum_{i=1}^n R_i\right] = \sum_{i=1}^n \E[R_i] = \sum_{i=1}^n \mu = n \cdot \mu & \eqref{eq:Evv} \label{eq:ES_n} \\
+%      \E[T_n] &= \E\left[\frac{1}{n}\left(R_1 + R_2 + \ldots + R_n\right) - \mu\right] \notag\\
+%              &= \frac1n \left(\E[R_1] + \E[R_2] + \ldots + \E[R_n]\right) - \E[\mu] & \eqref{eq:Ecv} \notag\\
+%              &= \frac{n \cdot \mu}{n} - \mu = 0 \label{eq:tn0}
+      \E[T_n] &= \E\left[\frac{S_n}{n} - \mu\right] = \frac{\E\left[S_n\right]}{\E\left[n\right]} - \E\left[\mu\right] & \eqref{eq:Evv} \notag\\
+              &= \frac{n \cdot \mu}{n} - \mu = 0  & \eqref{eq:ES_n}, \eqref{eq:Ecv} \label{eq:tn0}
   \end{align}
+  We also need a result regarding the variance.
   In the continuous and discrete case, it holds that $a^2 \cdot \Var[X] = \Var[a \cdot X]$:
   \begin{align}
-    a^2 \cdot \Var[X] &= a^2 \cdot \int (x - \mu)^2 \cdot f(x) \, dx = \int (x \cdot a - \mu \cdot a)^2 \cdot f(x) \, dx \nonumber \\
-    a^2 \cdot \Var[X] &= a^2 \cdot \sum_{i=1}^n p_i \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot a^2 \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot (x_i \cdot a - \mu \cdot a)^2 \nonumber
+    a^2 \cdot \Var[X] &= a^2 \cdot \int (x - \mu)^2 \cdot f(x) \, dx = \int (x \cdot a - \mu \cdot a)^2 \cdot f(x) \, dx \notag \\
+    a^2 \cdot \Var[X] &= a^2 \cdot \sum_{i=1}^n p_i \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot a^2 \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot (x_i \cdot a - \mu \cdot a)^2 \label{eq:a2V}
   \end{align}
-  The relation $\E[X^2] = \Var[X] + \E[X]^2$ holds as well,
+  The relation $\E[\norm{X}^2] = \Var[X] + \E[X]^2$ holds as well,
   \begin{align}
-    \Var[X] &= \E[(X - \mu)^2] = \E[X^2] - \E[2X\mu] + \E[\mu^2] \nonumber & \eqref{eq:Evv} \\
-            &= \E[X^2] - 2 \cdot \E\left[X \cdot \E[X]\right] + \E\left[\E[X]^2\right] \\
-            &= \E[X^2] - 2 \cdot \E[X]^2 + \E[X]^2 & \eqref{eq:Ecv} \nonumber \\
-            &= \E[X^2] - \E[X]^2 \\
-    \Var[T_n] &= \E[(T_n - \E[T_n])^2] \nonumber\\
-              &= \E[T_n^2] & \eqref{eq:tn0} \nonumber\\
-              &= \E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] \nonumber\\
-              &= \E\left[\frac{S_n^2}{n^2} - 2\frac{S_n}{n}\mu + \mu^2\right] \nonumber
+    \Var[X] &= \E[(X - \mu)^2] = \E[\norm{X}^2] - \E[2X\mu] + \E[\mu^2] \notag & \eqref{eq:Evv} \\
+            &= \E[\norm X^2] - 2 \cdot \E\left[X \cdot \E[X]\right] + \E\left[\E[X]^2\right] & \eqref{eq:Ecv} \notag\\
+            &= \E[\norm X^2] - 2 \cdot \E[X]^2 + \E[X]^2 & \eqref{eq:Ecv} \notag\\
+            &= \E[\norm X^2] - \E[X]^2 \label{eq:VXisEX2-EX2}
   \end{align}
+  We use this result to prove $\Var[T_n] = \frac{\sigma^2}{n}$.
   \begin{align}
-              &= \E\left[\left(\frac{S_n}{n}\right)^2\right] - \E\left[\frac{2\mu}{n} S_n\right] + \E\left[\mu^2\right] & \eqref{eq:Evv} \nonumber\\
-              &= \Var\left[\frac{S_n}{n}\right] + \E\left[\frac{S_n}{n}\right]^2 - 2\mu \cdot \E\left[\frac{S_n}{n}\right] + \mu^2 \nonumber \\
-              &= \frac1{n^2} \cdot \Var\left[S_n\right] + \left(\frac1{n} \cdot \E\left[S_n\right]\right)^2 - \frac{2\mu}{n} \cdot (n \cdot \mu) + \mu^2 \nonumber \\
-              &= \frac1{n^2} \cdot \left(\Var\left[S_n\right] + \E[S_n]\right) - 2\mu^2 + \mu^2 \nonumber \\
-              &= \frac{1}{n^2} \left(\Var\left[\sum_{i=1}^n R_i\right] + \E[S_n]^2\right) - 2\mu^2 + \mu^2 \nonumber\\
-              &= \frac{1}{n^2} \left(\sum_{i=1}^n \Var[R_i] + 2\sum_{\substack{i<j \\ i,j=1}}^n \Cov[R_i,R_j] + \E[S_n]^2\right) - \mu^2 & \eqref{eq:sumVarCov} \nonumber\\
-              &= \frac{1}{n^2} \left(\sum_{i=1}^n \sigma^2 + 0 + (n \cdot \mu)^2\right) - \mu^2 \nonumber\\
+    \Var[T_n] &= \E[\norm{T_n}^2] - \E[T_n]^2 = \E[\norm{T_n}^2] - 0^2 = \E[\norm{T_n}^2] & \eqref{eq:VXisEX2-EX2} \eqref{eq:tn0} \notag\\
+% TODO: \norm disappears here. Is is imprecise?
+              &= \E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] = \E\left[\left(\frac{S_n}{n}\right)^2 - 2\frac{S_n}{n}\mu + \mu^2\right] \notag \\
+              &= \E\left[\left(\frac{S_n}{n}\right)^2\right] - 2\cdot\E\left[\frac{\mu}{n} S_n\right] + \E\left[\mu^2\right] & \eqref{eq:Evv}\eqref{eq:Ecv} \notag\\
+              &= \Var\left[\frac{S_n}{n}\right] + \E\left[\frac{S_n}{n}\right]^2 - 2\mu \cdot \E\left[\frac{S_n}{n}\right] + \mu^2 & \eqref{eq:VXisEX2-EX2}\eqref{eq:Ec} \notag \\
+              &= \frac1{n^2} \cdot \Var\left[S_n\right] + \left(\frac1{n} \cdot \E\left[S_n\right]\right)^2 - \frac{2\mu}{n} \cdot (n \cdot \mu) + \mu^2 & \eqref{eq:Ecv}\eqref{eq:a2V} \notag \\
+              &= \frac1{n^2} \cdot \left(\Var\left[S_n\right] + \E[S_n]^2\right) - 2\mu^2 + \mu^2 \notag \\
+              &= \frac{1}{n^2} \left(\Var\left[\sum_{i=1}^n R_i\right] + \E[S_n]^2\right) - \mu^2 \notag\\
+              &= \frac{1}{n^2} \left(\sum_{i=1}^n \Var[R_i] + 2\sum_{\substack{i<j \\ i,j=1}}^n \Cov[R_i,R_j] + \E[S_n]^2\right) - \mu^2 & \eqref{eq:sumVarCov} \notag\\
+              &= \frac{1}{n^2} \left(\sum_{i=1}^n \sigma^2 + 0 + (n \cdot \mu)^2\right) - \mu^2 & \eqref{eq:ES_n} & \eqref{eq:CovXY0} \notag\\
               &= \frac{1}{n^2} \left(n \cdot \sigma^2 + n^2 \cdot \mu^2\right) - \mu^2 = \frac{\sigma^2}{n} + \mu^2 - \mu^2 = \frac{\sigma^2}{n}
   \end{align}
 \end{proof}
-This was proved the so-called Bienaym\'e formula.
-A shorter approach uses the definition of the mean:
-\[ \Var[\avg{T_n}] = \Var\left(\frac1n \sum_{i=1}^n X_i\right) = \frac1{n^2} \sum_{i=1}^n \Var[X_i] = \frac{\sigma^2}{n} \]
+%
+%% REMARK: Yes, this is a quote from Wikipedia. Yes, it is true. But it is too short, because we didn't show that the covariance is zero and whether they are uncorrelated or not. So I prefer the approach above
+%\index{Bienaym\'e formula}
+% This proves the so-called Bienaym\'e formula.
+% A shorter approach uses the definition of the mean:
+% \[ \Var[\avg{T_n}] = \Var\left(\frac1n \sum_{i=1}^n X_i\right) = \frac1{n^2} \sum_{i=1}^n \Var[X_i] = \frac{\sigma^2}{n} \]
 
 Furthermore, the following equation holds:
 \begin{align}
-    \E\left[\abs{T_n}^2\right]
-        &= \E\left[\abs{T_n}^2\right] - 2 \cdot \E[T_n] \cdot \E\left[\abs{T_n}\right] + \E\left[\E[T_n]^2\right] \nonumber\\
-        &= \E\left[\left(\abs{T_n} - \mu\right)^2\right] \nonumber
-        &= \Var[\abs{T_n}] \nonumber
+    \Var[\norm{T_n}] &= \E\left[(T_n - \E[T_n])^2\right] = \E\left[(T_n - 0)^2\right] = \E\left[\norm{T_n}^2\right] \label{eq:EVT_n}
 \end{align}
 %
-Now we can apply Chebyshev's Inequality Theorem to $T_n$ ($R = T_n$, $a = \varepsilon, n=2$):
-\[
+Now we can apply Chebyshev's Inequality Theorem ($R = \norm{T_n}$, $a = \varepsilon \in \mathbb R, p = 2$):
+\begin{align}
   \Prob[\abs{T_n} \geq \varepsilon]
-    \leq \frac{1}{\varepsilon^2} \E\left[\abs{T_n}^2\right]
+    &\leq \frac{1}{\varepsilon^2} \E\left[\abs{T_n}^2\right]
     = \frac{1}{\varepsilon^2} \Var\left[\abs{T_n}\right]
-\]
+    = \frac{1}{\varepsilon^2} \frac{\sigma^2}{n}
+    & \eqref{eq:EVT_n} \label{eq:cheby-applied}
+\end{align}
 For any $\varepsilon > 0$ with $n \to \infty$, it holds that
 \[ \Prob[\abs{T_n} \geq \varepsilon] \to 0 \]
 \[
@@ -267,10 +306,152 @@ For any $\varepsilon > 0$ with $n \to \infty$, it holds that
 
 This concludes the proof of the Weak Law of Large Numbers.
 In order to finish our proof of the Strong Law of Large numbers,
-we will use the Borel-Cantelli Lemma:
+we will use the Borel-Cantelli Lemma, an important result of measure theory.
 
-\TODO{Borel-Cantelli Lemma definition}
-\TODO{Borel-Cantelli Lemma: show that it applies to our case}
+\subsubsection{Borel-Cantelli Lemma}
+\label{sec:bp-borel-cantelli}
+%
+\begin{lemma}[Borel-Cantelli Lemma]\label{lemma:bcl}
+  Let $R_i$ with $1 \leq i < \infty$ be a sequence of events.
+  Assume the sum of these probabilities is finite, then it holds that:
+  \begin{align}
+    \sum_{i=1}^\infty \Prob[R_i] < \infty
+    &\implies
+    \Prob\left(\limsup\limits_{i\to\infty} R_i\right) = 0
+  \end{align}
+  So the probability, that the occuring event is an event which occurs infinitely often, is 0.
+\end{lemma}
+
+Please consider, that the limsup is defined as,
+\begin{align}
+  \limsup\limits_{i\to\infty} R_i &\coloneqq \bigcap_{j=1}^\infty \bigcup_{i \geq j}^\infty R_i \label{eq:limsup-char}
+\end{align}
+%Equivalently, we can also characterize it the following way:
+%\begin{definition}
+%  Let $S_i = \bigcup_{j \geq i}^\infty R_j$. Then
+%  \[
+%    \forall r \, \exists k \in \mathbb N \, \forall l > k: \:
+%    r \in \left(\lim_{i\to\infty} S_i\right) \Leftrightarrow r \in S_k
+%  \]
+%\end{definition}
+%
+%To prove this theorem, we consider the following (in)equalities:
+%\begin{align}
+%  \Prob\left(\limsup\limits_{n\to\infty} R_n\right)
+%      &= \Prob\left(\bigcap_{l=1}^\infty \bigcup_{n=l}^\infty R_n\right) \notag\\
+%      &\leq \inf_{l \geq 1} \Prob\left(\bigcup_{n=l}^\infty R_n\right) \notag\\
+%      &\leq \inf_{l \geq 1} \sum_{n=l}^\infty \Prob\left(R_n\right) \notag\\
+%      &= 0  \label{eq:limsup-0-result}
+%\end{align}
+%
+%To understand these lines, you need to recognize that $\bigcap_{l=1}^\infty$
+%represents the set-equivalent of $\inf_{l\geq1}$ for one set of numeric values.
+%However, the infimum (unlike the result of an intersection) must not be an element
+%of the set itself, hence yielding the inequality. This can be easily determined by
+%the equivalence of the characterizations shown above. Furthermore, probabilities satisfy
+%linearity (the probability of one of the events $A$, $B$, and $C$ equals the probability
+%of the union of $A$, $B$, and $C$). Finally, $\bigcup_{n=l}^\infty$ represents
+%the set-equivalent of $\sum_{n=l}^\infty$.
+
+The condition requires, that $\sum_{i=1}^\infty \Prob[R_i] < \infty$.
+This statement is equivalent to
+\begin{align}
+  \inf_{j \geq 1} \sum_{i=j}^\infty \Prob[R_i] &= 0  \label{eq:inf0}
+\end{align}
+
+We can make our final conclusion to prove the Borel-Cantelli Lemma:
+\begin{align}
+  \Prob\left[\limsup_{i\to\infty} R_i\right]
+    &= \Prob\left[\bigcap_{j=1}^\infty \bigcup_{i=j}^\infty R_i\right] & \eqref{eq:limsup-char} \notag\\
+    &\leq \inf_{j \geq 1} \Prob\left[\bigcup_{i=j}^\infty R_i\right] & \eqref{eq:prob-linear}\notag\\
+    &\leq \inf_{j \geq 1} \sum_{i=j}^\infty \Prob\left[R_i\right] \notag\\
+    &= 0 & \eqref{eq:inf0}
+\end{align}
+% $\bigcap_{j=1}^\infty$ roughly corresponds to the infimum.
+% $\bigcup_{i=j}^\infty$ roughly corresponds to $\sum_{i=j}^\infty$.
+The result of an intersection of elements creates a set, which
+is an actual subset in any of these sets. However, the infimum
+is not necessarily an element of the set. Hence, an inequality
+is introduced in the second line.
+
+\subsubsection{Strong Law of Large Numbers}
+\label{sec:bp-strong-law}
+%
+\begin{theorem}[Strong Law of Large Numbers]\label{thm:lln}
+  Assume the definitions of Theorem~\ref{thm:weak-lln}.
+  Therefore, $R_1, R_2, \ldots$ is an infinite sequence of independent random variables
+  with a common distribution ($\mu = \E[R_j]$, $\sigma^2 = \Var[R_j]$). $S_n$ and $T_n$
+  are defined. Now consider event $\mathcal E$:
+  \[
+    \mathcal E = \set{
+      \omega \in \Omega: \lim_{n\to\infty} \frac{S_n(\omega)}{n} = \mu
+    }
+  \]
+  Then it holds that
+  \[ \Prob[\mathcal E] = 1 \]
+\end{theorem}
+
+The following proof assumes $\sigma^2 = \E[\norm{R_j}^2] < \infty$ and $\E[\norm{R_j}^4] < \infty$.
+This restriction makes our proof easier, but the less restricted case $\E[\norm{R_j}] < \infty$ suffices as assumption
+(but this is not proven in this thesis).
+
+Without loss of generality we assume $\mu = 0$.
+If $\mu = 0$ is not satisfied, we consider $P_j \coloneqq R_j - \mu$ instead.
+
+Now, the proof structure works as follows: if
+\[ \lim_{n\to\infty} \frac{S_n(\omega)}{n} \neq 0 \]
+then $\exists \varepsilon \in \mathbb R$ with $\varepsilon > 0$ such that for infinitely many $n$
+\[ \norm{\frac{S_n(\omega)}{n}} > \varepsilon \]
+So to prove the theorem, we will prove that for every $\varepsilon > 0$,
+\[ \Prob[\norm{S_n} > n \cdot \varepsilon \text{ infinitely often}] = 0 \]
+In the following, this reveals that
+\[ \Prob[\mathcal E] = \Prob\left[\frac{S_n}{n} = 0\right] = 1 \]
+proving Theorem~\ref{thm:lln}.
+
+First of all, we define
+\[ A_n = \set{\omega \in \Omega: \norm{S_n} \geq n \cdot \varepsilon} \]
+and look at $\Prob[A_n]$ using the Chebyshev inequality (Theorem~\ref{thm:chebyshev}) with $p=4$ and $a=n\cdot\varepsilon$:
+\[ \Prob[\norm{S_n} \geq (n\cdot\varepsilon)] \leq \frac{1}{(n\cdot\varepsilon)^4} \E[\norm{S_n}^4] \]
+We must determine $\E[\norm{S_n}^4]$ which equals to
+\begin{align*}
+  \E\left[\sum_{1 \leq i,j,k,l \leq n} R_i R_j R_k R_l\right]
+    &= \E\left[\sum_{1\leq i}^n \sum_{1\leq j}^n \sum_{1\leq k}^n \sum_{1\leq l}^n R_i R_j R_k R_l\right] \notag\\
+    &= \E\left[(R_1^4 + \ldots + R_1 R_n^3) + (R_2 \ldots) + (R_3 \ldots) + (R_n \ldots + R_n^4) \right]
+\end{align*}
+Because $\E[R_i] = 0$, we can remove all terms containing $R_j$ of degree 1 for any $j$.
+These are terms of the structure (assuming $i, j, k$ and $l$ distinct),
+\[
+  \E[R_i^3 R_j], \,
+  \E[R_i^2 R_j R_k], \,
+  \E[R_i R_j R_k R_l]
+\]
+Remember that multiplication of expected values (compare with Equation~\ref{eq:CovXY0}) applies here.
+The non-zero terms are $\E[R_i^4]$ and $\E[R_i^2 R_j^2] = \left(\E[R_i^2]\right)^2$.
+Now, we need to quantify the occurences of these non-zero terms. $\E[R_i^4]$ occurs $n$ times.
+Terms $\E[R_i^2 R_j^2]$ occur $3n \cdot (n-1)$ times, as there are $\frac{(n-1) \cdot n}{2}$ ways to choose 2 indices and 6 ways to find $R_i^2 R_j^2$.
+In conclusion, we determined, % $\E\left[\norm{S_n}^4\right]$,
+\[ \E\left[\norm{S_n}^4\right] = n \cdot \E\left[R_1^4\right] + 3n \cdot (n - 1) \cdot \sigma^4 \]
+In this expression, $n$ is our only constant occuring with polynomial degree $2$. So for any $n$ sufficiently large, there exists $C \in \mathbb R$ such that
+\begin{align}
+  3 \sigma^4 n^2 + \left(\E\left[\norm{R_1}^4\right] - 3 \sigma^4\right) \cdot n &\leq C \cdot n^2 \label{eq:3sigman2}
+\end{align}
+\[ \Rightarrow \E\left(\norm{S_n}^4\right) \leq C n^2 \]
+
+We return back to Chebyshev's inequality
+\[
+    \Prob[\norm{S_n} \geq (n\cdot\varepsilon)]
+    \leq \frac{1}{(n\cdot\varepsilon)^4} \E[\norm{S_n}^4]
+    \leq \frac{C \cdot n^2}{\varepsilon^4 \cdot n^2 \cdot n^2}
+\]
+It follows that, there exists some $n_0$ such that Equation~\eqref{eq:3sigman2} is satisfied.
+With this approach, we skip a finite number of elements of the sum. This does not affect its convergence or divergence.
+\[
+    \sum_{n \geq n_0} \Prob\left[\norm{S_n} \geq n \cdot \varepsilon\right]
+    \leq \sum_{n \geq n_0} \frac{C}{\varepsilon^4 n^2} < \infty
+\]
+Therefore, the condition to apply the Borel-Cantelli Lemma (Lemma~\ref{lemma:bcl}) are satisfied.
+For every $\varepsilon > 0$ it holds that,
+\[ \Prob\left[\norm{S_n} \geq n \varepsilon \text{ infinitely often}\right] = 0 \]
 
 \subsection{Union and intersection of events}
 \label{sec:bp-unin}
@@ -414,11 +595,16 @@ Popular error functions include
 \subsection{Overfitting}
 \label{sec:bp-overfitting}
 %
+\index{training data}
+\index{validation data}
+\index{test data}
+\index{overfitting}
 Machine Learning distinguishes between a \emph{training} and \emph{validation} dataset as input.
 It uses the training set to learn which output is desired for some given input.
 Therefore all elements of the training set are labelled such that the error in the output can be quantified.
 \emph{Overfitting} describes the situation, when the learning algorithm approximates the output with little error,
 but input from the validation set (which contains different inputs) is computed with high error.
+So the algorithm perfectly adapted itself to recognize the training data, but performs badly for any other input.
 
 \TODO{visualization}
 

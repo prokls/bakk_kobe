@@ -1,13 +1,39 @@
 \chapter{Neural networks}
 %
+\index{Online character reorganization}
+\index{Online character recognition}
+\index{Offline character recognition}
 Neural networks are our tool of choice for our implementation project.
 We want to recognize mathematical expressions and also consider Kanji recognition.
-However, due to the ambiguity of handwriting and implicit conventions applied,
-this implementation cannot compete with industrial applications.
-Furthermore this implementation only covers online recognition and can therefore
-no recognize handwriting from images.
+Challenges for these applications are especially ambiguity of handwriting and implicit
+conventions applied to notation. As a result, the quality of such applications
+varies greatly.
+This particular implementation cannot compete with industrial applications due to time constraints for this thesis.
+
+Recognizing handwriting recorded with a digitizer as a time sequence of pen
+coordinates is known as \emph{online character reorganization}.
+As opposed to \emph{offline handwritten character recognition} dealing
+with the scanned handwritten document~\cite{kumar2013offline}.
+Our implementation only covers online recognition.
 
 \section{Structure of neural networks}
+%
+The definitions in this chapter are based on Christopher M. Bishop's book \emph{Pattern Recognition and Machine Learning}~\cite{Bishop}. The definition of neural networks is based on Bishop's definition of the multilayer perceptron on page~227 ff. as a result of considerations of linear models. The linear models deal with the following problems:
+
+\begin{problem}[Regression problem]
+  Given a training data comprising $N$ observations $\{x_n\}$, where $n = 1, \ldots, N$ together with corresponding target values $\{t_n\}$, the goal is to predict the value of $t$ for a new value of $x$.~\cite[p.~138]{Bishop}
+\end{problem}
+
+\begin{problem}[Classification problem]
+  Take an input vector $x$ and assign it to one of $K$ discrete class $\mathcal C_k$ where $k = 1, \ldots, K$.~\cite[p.~179]{Bishop}
+\end{problem}
+
+The models are based on linear combinations of fixed nonlinear basis functions~$\varphi_j(x)$:
+\begin{align}
+  y(x, w) &= f\left(\sum_{j=1}^M w_j \varphi_j(x)\right)
+\end{align}
+
+In this case, $x$ represents the input vector, $w$ represents so-called \emph{weights}, $\varphi_j(x)$ denotes the $j$-th fixed nonlinear basis function and $f(\cdot)$ is a nonlinear activation function. In the case of regression, $f(\cdot)$ is the identity function.
 
 \TODO{Explain layers}
 
@@ -32,12 +58,28 @@ no recognize handwriting from images.
 \section{Google TensorFlow}
 \label{sec:nn-tensorflow}
 %
-Google TensorFlow is an open-source software library for Machine Intelligence.
+\index{classification}
+\index{regression}
+Google TensorFlow~\cite{abadi2016tensorflow} is an open-source software library for Machine Intelligence.
 It provides users a choice between a high-level and a low-level API.
-This enables them to use classification or regression models to implement
-Machine Learning applications.
+This enables them to implement a wide variety of Machine Learning applications.
+We will list some basic application classes distinguished in Machine Learning:
+\begin{description}
+  \item[Supervised learning]
+    labelled data is available used in training phase, validation possible
+    \begin{description}
+      \item[regression] output values are continuous
+      \item[classification] output values are discrete
+    \end{description}
+  \item[Unsupervised learning]
+    labelled data unavailable, validation impossible
+    \begin{description}
+      \item[clustering] find groups of similar features
+      \item[density estimation] find distribution of data within input space
+    \end{description}
+\end{description}
 
-For our application, it is the tool of choice.
+For our application, TensorFlow is the tool of choice.
 We used the Python API to implement our handwriting recognition system.
 
 \section{Terminology}
@@ -60,6 +102,28 @@ Handwriting recognition has gained attention on handheld devices such as persona
 With the recent advent of smartphones after the year 2000, new input devices were used for handwriting.
 The screens got large enough such that the user can draw the desired characters and applications recognize the glyphs.
 Even though the quality has improved tremendously since the 1960s, most users still prefer a virtual keyboard over character drawing interfaces.
+
+The MNIST dataset~\cite{lecun1998mnist} is the most famous dataset to begin an application with.
+Extremely high accuracies have been obtained~\cite{surinta2015recognition} to recognize the digits given in this dataset.
+However, there are many other datasets consisting of less examples and which can be considered more difficult.
+The aforementioned paper~\cite{surinta2015recognition} considers Thai, Bangla, and Latin scripts, which employs new challenges considering a high variability in the shapes, strokes, curls, and concavities.
+
+They collected a Thai handwritten script dataset containing 24,045 character images in total from various writers.
+Figure~\ref{fig:tbl-examples} shows examples for the Thai, Bangla, and Latin scripts.
+Recognize that the Bangla numeral 4 (Example b, row 2, column 5 in Figure~\ref{fig:tbl-examples}) and the Latin digit 8 (Example b, row 3, column 9) are written the same way.
+It follows immediately that recognition software must not only recognize individual characters, but has to use context information to determine which script is used.
+Accuracies above 95~\%, 88~\% and 60~\% for Latin, Thai, and Bangla scripts, respectively using support vector machines.
+
+\begin{figure}[!h]
+  \begin{center}
+    \includegraphics{img/thai-bangla-latin-handwriting.png}
+    \caption{
+      Thai, Bangla, and Latin handwriting example shown in the first, second and third row, respectively.
+      Sample (a) shows handwritten characters and (b) shows handwritten digits.
+    }
+    \label{fig:tbl-examples}
+  \end{center}
+\end{figure}
 
 In this thesis, we want to focus on two tasks. The first task is a generic version of the second task.
 \begin{enumerate}
