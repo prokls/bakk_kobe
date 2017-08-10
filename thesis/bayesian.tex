@@ -377,7 +377,7 @@ is introduced in the second line.
 \subsubsection{Strong Law of Large Numbers}
 \label{sec:bp-strong-law}
 %
-\begin{theorem}[Strong Law of Large Numbers]\label{thm:lln}
+\begin{theorem}[Strong Law of Large Numbers]\label{thm:slln}
   Assume the definitions of Theorem~\ref{thm:weak-lln}.
   Therefore, $R_1, R_2, \ldots$ is an infinite sequence of independent random variables
   with a common distribution ($\mu = \E[R_j]$, $\sigma^2 = \Var[R_j]$). $S_n$ and $T_n$
@@ -406,7 +406,7 @@ So to prove the theorem, we will prove that for every $\varepsilon > 0$,
 \[ \Prob[\norm{S_n} > n \cdot \varepsilon \text{ infinitely often}] = 0 \]
 In the following, this reveals that
 \[ \Prob[\mathcal E] = \Prob\left[\frac{S_n}{n} = 0\right] = 1 \]
-proving Theorem~\ref{thm:lln}.
+proving Theorem~\ref{thm:slln}.
 
 First of all, we define
 \[ A_n = \set{\omega \in \Omega: \norm{S_n} \geq n \cdot \varepsilon} \]
