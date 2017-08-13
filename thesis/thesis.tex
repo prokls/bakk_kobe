@@ -13,6 +13,7 @@
     pdfsubject={Bayesian probability theory and Neural networks applied to character recognition},
     pdfkeywords={Bayes, probability, neural network, classifier, character, unicode, kanji, mathematical expressions}
     ]{hyperref} % dep: after biblatex
+\usepackage{makeidx}
 \usepackage{microtype}
 \usepackage{ntheorem}  % dep: before thmtools
 \usepackage{thmtools}
@@ -21,16 +22,20 @@
 \usepackage{metalogo}
 \usepackage[fallback]{xeCJK}
 \usepackage{mathtools}
+\usepackage[toc,page]{appendix}
+\usepackage{minted}
 
 \bibliography{thesis}
 
 \newcommand\abs[1]{\left|\hspace{0.6999pt}#1\hspace{0.6999pt}\right|}
 \newcommand\set[1]{\left\{#1\right\}}
+\newcommand\setdef[2]{\left\{#1\,|\,#2\right\}}
 \newcommand\avg[1]{\overline{#1}}
 \newcommand\E{\mathbb E}
 \newcommand\mean{\mu}
 \newcommand\Nat{\mathbb N}
 \newcommand\Prob{\mathbb P}
+\newcommand\ProbCond[2]{\Prob[#1\,|\,#2]}
 \newcommand\Var{\mathbb V}
 \DeclareMathOperator\Cov{Cov}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -59,6 +64,8 @@
 \definecolor{urlcolor}{cmyk}{0.59,0.00,0.76,0.44}
 
 \defaultfontfeatures{Ligatures=TeX}%,Numbers=OldStyle}
+
+\setminted[python]{mathescape,numbersep=5pt,frame=lines,framesep=2mm}
 
 \setromanfont{Andada}
 \setsansfont{DejaVu Sans}
@@ -118,6 +125,8 @@
 
 \setlength{\parindent}{0pt}%
 \setlength{\parskip}{\baselineskip}%
+
+\makeindex
 
 \begin{document}
 \frontmatter
@@ -264,9 +273,10 @@ This document was printed with \XeLaTeX{} in the Andada typeface.
 
 \input{bayesian}
 \input{nn}
-%\input{appendix}
+\input{appendix}
 
 \backmatter
+\printindex
 \printbibliography
 %\listoffigures
 %\listoftables

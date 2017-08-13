@@ -1,3 +1,4 @@
 #!/bin/sh
 bibtex8 thesis
-xelatex thesis
+makeindex thesis
+xelatex -shell-escape thesis

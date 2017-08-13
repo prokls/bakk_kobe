@@ -58,8 +58,8 @@ In this case, $x$ represents the input vector, $w$ represents so-called \emph{we
 \section{Google TensorFlow}
 \label{sec:nn-tensorflow}
 %
-\index{classification}
-\index{regression}
+\index{Classification}
+\index{Regression}
 Google TensorFlow~\cite{abadi2016tensorflow} is an open-source software library for Machine Intelligence.
 It provides users a choice between a high-level and a low-level API.
 This enables them to implement a wide variety of Machine Learning applications.
@@ -116,7 +116,7 @@ Accuracies above 95~\%, 88~\% and 60~\% for Latin, Thai, and Bangla scripts, res
 
 \begin{figure}[!h]
   \begin{center}
-    \includegraphics{img/thai-bangla-latin-handwriting.png}
+    \includegraphics[width=0.8\textwidth]{img/thai-bangla-latin-handwriting.png}
     \caption{
       Thai, Bangla, and Latin handwriting example shown in the first, second and third row, respectively.
       Sample (a) shows handwritten characters and (b) shows handwritten digits.
@@ -185,10 +185,10 @@ We define four properties:
   Some characters are visually difficult to distinguish.
   Two or more visually similar glyphs are represented in a \emph{character group} (a set of Unicode points).
   We distinguish the characters later context-sensitively.
-  \index{character group}
+  \index{Character group}
 \item A character group is represented by its \emph{representative} (one Unicode point),
   i.e. the member with the smallest Unicode point value.
-  \index{representative}
+  \index{Representative}
 \end{enumerate}
 
 In order to retrieve the list of character groups and representatives,
