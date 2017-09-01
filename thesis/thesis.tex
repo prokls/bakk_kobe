@@ -24,6 +24,15 @@
 \usepackage{mathtools}
 \usepackage[toc,page]{appendix}
 \usepackage{minted}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+% https://tex.stackexchange.com/a/300259
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
 
 \bibliography{thesis}
 

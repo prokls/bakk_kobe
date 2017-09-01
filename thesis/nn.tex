@@ -18,12 +18,13 @@ Our implementation only covers online recognition.
 
 \section{Structure of neural networks}
 %
-The definitions in this chapter are based on Christopher M. Bishop's book \emph{Pattern Recognition and Machine Learning}~\cite{Bishop}. The definition of neural networks is based on Bishop's definition of the multilayer perceptron on page~227 ff. as a result of considerations of linear models. The linear models deal with the following problems:
+The definitions in this chapter are based on Christopher M. Bishop's book \emph{Pattern Recognition and Machine Learning}~\cite{Bishop}.
+In this thesis, we generally use the term \emph{Neural network} deliberately for the multilayer perceptron on page~227 ff. as a result of considerations of linear models.
+The linear models deal with the following problems:
 
 \begin{problem}[Regression problem]
   Given a training data comprising $N$ observations $\{x_n\}$, where $n = 1, \ldots, N$ together with corresponding target values $\{t_n\}$, the goal is to predict the value of $t$ for a new value of $x$.~\cite[p.~138]{Bishop}
 \end{problem}
-
 \begin{problem}[Classification problem]
   Take an input vector $x$ and assign it to one of $K$ discrete class $\mathcal C_k$ where $k = 1, \ldots, K$.~\cite[p.~179]{Bishop}
 \end{problem}
@@ -50,6 +51,12 @@ In this case, $x$ represents the input vector, $w$ represents so-called \emph{we
 \TODO{Explain the algorithm}
 
 \subsection{Gradient Descent}
+
+Gradient Descent is an iterative optimization algorithm. It utilizes the gradient
+of the function to minimize the function value. The method dates at least back to
+Cauchy~\cite{cauchy-gd}, who used it for astronomical calculations.
+In Machine Learning, we use Gradient
+Descent for the error function
 
 \TODO{Explain the algorithm and exercises}
 

@@ -1,6 +1,6 @@
 \chapter{Bayesian theory}
 \section{Probability theory and statistics}
-\subsection[σ-algebra]{$\boldsymbol\sigma$-algebra}
+\subsection[Sigma-algebra]{$\boldsymbol\sigma$-algebra}
 %
 The following mathematical object is necessary in order to define probability properly:
 
@@ -37,19 +37,23 @@ Probability theory is concerned with random experiments and random phenomena. Pr
   A \emph{probability space} $(\Omega, \mathcal A, \Prob)$ denotes
     the set of possible outcomes, a set of events, and a map from an element of $\mathcal A$ to a real value in $[0,1]$.
     $\mathcal A$ is a $\sigma$-algebra. As elements of $\mathcal A$ are sets, we can apply set operations on them.
-    If $\Omega$ is a finite space, \emph{probability measure} $\Prob$ satisfies the following conditions:
+    Let $\Omega$ be a finite set.
+    \emph{Probability measure} $\Prob$ satisfies the following conditions:
     \begin{align}
       &\Prob[A] \geq 0 \text{ for } A \in \mathcal A \label{def:prob-1} \\
-      &\Prob[A + B] = \Prob[A] + \Prob[B] \text{ for } A, B \in \mathcal A \text{ and } A \cap B = \emptyset \label{def:prob-2} \\
+      &\Prob[A \cup B] = \Prob[A] + \Prob[B] \text{ for } A, B \in \mathcal A \text{ and } A \cap B = \emptyset \label{def:prob-2} \\
       &\Prob[\Omega] = 1 \label{def:prob-3}
     \end{align}
+    These axioms are due to Kolmogorov~\cite{kolmogorov1950foundations}.
     Property~\ref{def:prob-2} implies linearity of the probability measure (for mutually exclusive events $A$):
     \begin{align}
-      \Prob\left[\bigcup A\right] &= \sum \Prob\left[A\right] \label{eq:prob-linear}
+      \Prob\left[\bigcup_{A \in \mathcal A} A\right] &= \sum_{A \in \mathcal A} \Prob\left[A\right] \label{eq:prob-linear}
     \end{align}
-  An \emph{event} is any subset $a$ of $\Omega$, hence $a \in \mathcal A$.
+  For $R$ \emph{taking the value $k$}, we write,
+  \[ \Prob[R=k] \coloneqq \Prob\left(\set{\omega \in \Omega \mid R(\omega) = k}\right) \]
+  An \emph{event} is an element $A$ of $\mathcal A$, hence a subset $A$ of $\Omega$.
   A \emph{$\mathbb Z$-valued random variable $R$} is a map from $\Omega$ to $\mathbb Z$
-  such that $R^{-1} \in \mathcal A$ for any $z \in \mathbb Z$.
+  such that $R^{-1}(z) \in \mathcal A$ for any $z \in \mathbb Z$.
   A \emph{$\mathbb R$-valued random variable $R$} is a map from $\Omega$ to $\mathbb R$
   such that $R^{-1}((r, s]) \in \mathcal A$ for any real numbers $r < s$.
 \end{definition}
@@ -58,57 +62,77 @@ Probability theory is concerned with random experiments and random phenomena. Pr
   A coin toss has two possible outcomes, heads (\textit h) or tails (\textit t).
   We consider two coin tosses.
   Then $\Omega = \set{(h, h), (h, t), (t, h), (t, t)}$ and $\mathcal A$ is the powerset of $\Omega$ (i.e. set of all subsets).
-  Let $\Prob[A] = \#A / 4$, the size of set $A$ divided by $4$.
-  Let $R$ be our random variable in $\mathbb Z$ defined as result of the first coin toss (1 represents head, 0 represents tails).
+  Let $\Prob[A] = \card{A} / \card{\Omega}$, the size of set $A$ divided by $4$.
+  Let $R$ be our random variable mapping to $\mathbb Z$ defined as result of the first coin toss (1 represents head, 0 represents tails).
   Then $\Prob[R=1] = \Prob[\setdef{\omega \in \Omega}{R(\omega) = 1}] = \Prob[\set{(h, h), (h, t)}] = \frac24$.
 \end{example}
 
 In the following, we will declare random variables, but won't specify the group explicitly.
-Either it is obvious from context (because of the numbers, we use) or
-our statements work for both groups.
+Either it is obvious from context (because of the numbers we use) or our statements work for both groups.
+In that sense, a \emph{random variable} is either {$\mathbb Z$-valued} or {$\mathbb R$}-valued here.
 
-\subsection{Average Value and Expected Value}
-\label{sec:bp-ae}
+%\subsection{Average Value}
+%\label{sec:bp-av}
+%%
+%\begin{definition}
+%  \index{Average value}
+%  \index{Population mean}
+%  \index{Sample mean}
+%  Let $\Omega$ be a finite set and $R$ be a random variable.
+%  The \emph{average value} $\avg{R}$ of random variable $R$ is defined as,
+%  \begin{align}
+%    \avg{R} &\coloneqq \frac{1}{\card{\Omega}} \sum_{a \in \Omega} R(a)
+%  \end{align}
+%  If all outcomes of the sample space $\Omega$ are considered,
+%  we call $\avg{R}$ the \emph{population mean} (denoted $\mu$), otherwise \emph{sample mean}.
+%\end{definition}
+
+\subsection{Expected Value}
+\label{sec:bp-ev}
 %
 \begin{definition}
-  \index{Average value}
-  \index{Population mean}
-  \index{Sample mean}
   \index{Expected value}
-  Let $\Omega$ be a finite set and $R$ be an $E$-valued random variable where $E$ is $\mathbb Z$ or $\mathbb R$.
-  The \emph{average value} $\avg{R}$ of a random variable $R$ is defined as,
+  \index{Mean value}
+  The \emph{expected value} $\E$ (also \emph{mean value}) of a random variable $R$ is defined by:
   \begin{align}
-    \avg{R} &\coloneqq \frac{1}{\card{\mathcal A}} \sum_{a \in \mathcal A} R(a)
+    \E[R]      &\coloneqq \mu
+%              = \sum_{a \in \Omega} \Prob[a] \cdot R(\set{a})
+%              = \sum_{z \in E} \Prob[R = z] \cdot z \\
+               = \sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot R(\omega) \qquad
+    \E_{A}[R]  = \sum_{a \in A} \Prob[\set{a}] \cdot R(a)
   \end{align}
-  If all outcomes of the sample space $\Omega$ are considered, we call $\avg{R}$ the \emph{population mean} (denoted $\mu$),
-  otherwise \emph{sample mean}. \\
-  We define the \emph{expected value} of a random variable $R$ as follows and denote it by $\E$.
-  \begin{align}
-    \E[R] &\coloneqq \mu = \sum_{a \in \mathcal A} \Prob[a] \cdot R(a) \\
-          &= \sum_{z \in E} \Prob[R = z] \cdot z  \notag
-  \end{align}
-  where $\Prob[R = z]$ is the probability of the random variable $R$ taking the value $z$.
-  In other words, $\Prob[R = z] \coloneqq \Prob[A_z]$ with $A_z \coloneqq \setdef{e \in \Omega}{R(e) = z}$.
+  %where $\Prob[R = z]$ is the probability of the random variable $R$ taking the value $z$.
+  %In other words, $\Prob[R = z] \coloneqq \Prob[A_z]$ with $A_z \coloneqq \setdef{e \in \Omega}{R(e) = z}$.
+  Let $R$ be a map of $\Omega$ to $E$.
+  Applying a function to an expected value means applying the function to the element of $E$.
+  Let $f$ be any function with domain $E$, then
+  \[
+    \E[f(R)]      = \sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot f(R(\omega)) \qquad
+    \E_{A}[f(R)]  = \sum_{a \in A} \Prob[\set{a}] \cdot f(R(a))
+  \]
 \end{definition}
 
-Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
+Let $R$ and $S$ be two random variables. Let $c \in \mathbb R$.
 The following properties are satisfied:
 \begin{align}
-  \E[c]     &\coloneqq c \\
-  \E[R + c] &\coloneqq \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a + c)\right) \notag\\
-            &= \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot a\right) + \sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot c\right) \notag\\
-            &= \E[R] + c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \notag\\
+  \E[c]     &= \sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot c = 1 \cdot c = c \\
+  \E[R + c] &= \sum_{\omega \in \Omega} \left(\Prob[\set{\omega}] \cdot (R(\omega) + c)\right) \notag\\
+            &= \sum_{\omega \in \Omega} \left(\Prob[\set{\omega}] \cdot R(\omega)\right) + \sum_{\omega \in \Omega} \left(\Prob[\set{\omega}] \cdot c\right) \notag\\
+            &= \E[R] + c \cdot \sum_{\omega \in \Omega} \Prob[\set{\omega}] \notag\\
             &= \E[R] + c \cdot 1 = \E[R] + c \\
-  \E[R + S] &\coloneqq \sum_{a \in (\mathcal A_R \cup \mathcal A_S)}
+  \E[R + S] &= \sum_{\omega \in (\Omega_R \cup \Omega_S)}
               \begin{cases}
-                \Prob[R=a] \cdot a & \text{if } a \in A_R \\
-                \Prob[S=a] \cdot a & \text{if } a \in A_S
+                \sum_{\omega \in \Omega_R} \Prob[\set{\omega}] \cdot R(\omega) & \text{if } \omega \in \Omega_R \\
+                \sum_{\omega \in \Omega_S} \Prob[\set{\omega}] \cdot R(\omega) & \text{if } \omega \in \Omega_S
               \end{cases}\notag\\
-            &= \sum_{a \in \mathcal A_R} \Prob[R=a] \cdot a + \sum_{a \in \mathcal A_S} \Prob[S=a] \cdot a \notag\\
-            &= \E[R] + \E[S] \\
-  \E[c \cdot R] &\coloneqq \sum_{a \in \mathcal A} \Prob[R=a] \cdot (c \cdot a) \notag\\
-            &= c \cdot \sum_{a \in \mathcal A} \Prob[R=a] \cdot a = c \cdot \E[R]
+            &= \sum_{\omega \in \Omega_R} \Prob[\set{\omega}] \cdot R(\omega) + \sum_{\omega \in \Omega_S} \Prob[\set{\omega}] \cdot R(\omega) \notag\\
+            &= \E[R] + \E[S] \label{eq:ERS-RpS} \\
+  \E[c \cdot R]
+            &= \sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot (c \cdot R(\omega)) \notag\\
+            &= c \cdot \sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot R(\omega) \notag\\
+            &= c \cdot \E[R]
 \end{align}
+It immediately follows, that this holds true for $\E_A$ for any $A \in \mathcal A$.
 
 \subsection{Equivalence of the continuous probability model}
 \label{sec:bp-continuous}
@@ -124,7 +148,7 @@ The following properties are satisfied:
     \Prob[z \leq R] \coloneqq \int\limits_z^\infty f(x) \, dx
   \]
   This establishes a relation between function $f$ and random variable $R$.
-  Because $R$ satisfies properties~\ref{def:prob-1} and \ref{def:prob-3} of probability measures,
+  Because $\Prob[R \leq y]$ satisfies properties~\ref{def:prob-1} and \ref{def:prob-3} of probability measures,
   $f$ also satisfies:
   \begin{align}
     f(x) &\geq 0 \qquad \forall x \in (-\infty, \infty) \label{prop:pdf1} \\
@@ -134,25 +158,26 @@ The following properties are satisfied:
 \end{definition}
 \begin{example}
   \[ f(x \; | \; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2} } \; e^{ -\frac{(x-\mu)^2}{2\sigma^2} } \]
-  The normal distribution function depending on parameters $\mu$ and $\sigma^2$ is one example for a probability density function.
+  The normal distribution function, depending on parameters $\mu$ and $\sigma^2$, is one example for a probability density function.
   The function is introduced in Section~\ref{sec:bp-norm-dist} in detail.
 \end{example}
 
-We have seen that the continuous model follows equivalent properties.
-The same is true for the expected value.
+We have seen that the continuous model follows equivalent properties like the discrete model.
+This is also true for the expected value.
 
 \begin{definition}
   \index{Expected value}
-  The \emph{expected value} in the continuous model is defined as,
+  The \emph{expected value} of random variable~$R$ %in the continuous model
+  is defined as,
   \begin{align}
     \E[R] &\coloneqq \int_{-\infty}^\infty \left(\Prob[R=x] \cdot x\right) \, dx
-          = \int_{\mathbb R} \left(\Prob[R=x] \cdot x\right) \, dx
   \end{align}
-  where $z \in E$ where $E$ is $\mathbb Z$ or $\mathbb R$ (group of the random variable).
+  Since intuitively $\int_{-\infty}^\infty \Prob[R=x] \, dx = \int_{\mathbb R} f(x) \, dx$,
+  \[ \E[R] = \int_{\mathbb R} x \cdot f(x) \, dx \]
 \end{definition}
 %
 \begin{proof}
-  Let $R$ and $S$ be two random variables and $c \in \mathbb R$.
+  Let $R$ and $S$ be two random variables. Let $c \in \mathbb R$.
   The expected value satisfies:
   %
   \begin{align}
@@ -184,9 +209,9 @@ as well as $\mathbb R$-valued random variables.
 Considering the entire population, the variance can also quantify over the population mean $\mu$:
 \[ \sigma^2 = \Var[R] \coloneqq \E[(R - \mu)^2] \]
 In the discrete case, this is equivalent to,
-\[ \Var[R] = \E\left[\sum_{a \in \mathcal A} \left(\Prob[R=a] \cdot (a - \mu)\right)^2\right] \]
+\[ \Var[R] = \E\left[\sum_{\omega \in \Omega} \Prob[\set{\omega}] \cdot \left(R(\omega) - \mu\right)^2\right] \]
 and in the continuous case, we have:
-\[ \Var[R] = \E\left[\int_{\mathbb R} \left(\Prob[R=x] \cdot (x + \mu)\right)^2 \, dx\right] \]
+\[ \Var[R] = \E\left[\int_{\mathbb R} \Prob[R=x] \cdot \left(x + \mu\right)^2 \, dx\right] \]
 \begin{definition}
   \index{Standard deviation}
   The \emph{standard deviation} is defined as its second root:
@@ -203,10 +228,11 @@ It is defined as:
   \Cov[X,Y]
     &= \E[(X - \E[X])(Y - \E[Y])] \label{eq:cov}\\
     &= \E[XY - Y\cdot\E[X] - X\cdot\E[Y] + \E[X]\E[Y]] \notag\\
+    &= \E[XY] - \E[Y]\cdot\E[X] - \E[X]\cdot\E[Y] + \E[X]\E[Y] \notag\\
     &= \E[XY] - \E[X]\cdot\E[Y] \label{eq:cov-exy}
 \end{align}
 %
-If $X$ and $Y$ are independent (compare with Section~\ref{sec:bp-indep}), then the covariance is zero.
+If $X$ and $Y$ are independent (Section~\ref{sec:bp-ev-indep}), then the covariance is zero.
 \begin{align}
   \Cov[X,Y] &= \E[XY] - \E[X] \cdot \E[Y] = \E[X] \cdot \E[Y] - \E[X] \cdot \E[Y] = 0 \label{eq:CovXY0}
 \end{align}
@@ -222,12 +248,12 @@ Then it holds that:
   \Var\left[\sum_{i=1}^n X_i\right]
     &= \E\left[\left(\sum_{i=1}^n X_i - \E\left[\sum_{i=1}^n X_i\right]\right)^2\right] \notag \\
     &= \E\left[\left(\sum_{i=1}^n \left(X_i - \E\left[X_i\right]\right)\right)^2\right] \notag \\
-    &= \E\left[\sum_{i=1}^n \left(X_i - \E[X_i]\right) \cdot \sum_{j=1}^n \left(X_i - \E[X_i]\right)\right] \notag \\
+    &= \E\left[\sum_{i=1}^n \left(X_i - \E[X_i]\right) \cdot \sum_{j=1}^n \left(X_j - \E[X_j]\right)\right] \notag \\
     &= \E\left[\sum_{j=1}^n \left(\sum_{i=1}^n (X_i - \E[X_i])\right) (X_j - \E[X_j]) \right] \notag \\
     &= \E\left[\sum_{i,j \in [1,n]} \left(X_i - \E[X_i]\right) \left(X_j - \E[X_j]\right)\right] \notag \\
     &= \sum_{i,j \in [1,n]} \E[(X_i - \E[X_i])(X_j - \E[X_j])] \notag \\
     &= \sum_{i,j \in [1,n]} \Cov[X_i, X_j] \notag \\
-    &= \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_j] \notag \\
+    &= \sum_{i \in [1,n]} \Cov[X_i, X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_j] \notag \\
     &= \sum_{i=1}^n \Var[X_i] + \sum_{\substack{i \neq j \\ i,j \in [1,n]}} \Cov[X_i, X_j] \notag \\
     &= \sum_{i=1}^n \Var[X_i] + 2 \cdot \sum_{1 \leq i < j \leq n} \Cov[X_i, X_j] \label{eq:sumVarCov}
 \end{align}
@@ -236,20 +262,12 @@ Then it holds that:
 \label{sec:bp-lln}
 %
 The Law of Large Numbers stresses the practical importance of the expected value.
-\begin{theorem}[Law of Large Numbers]\label{thm:lln}
-  First, we define the notion of the average value over a sample $A_i$ of size $n$:
-  \[ \avg{R}_n \coloneqq \frac1n \sum_{i=0}^n A_i \]
-  Then, the Law of Large Numbers states that,
-  \[ \lim_{n\to\infty} \avg{R}_n = \E[R] \]
-\end{theorem}
 
-In order to prove this theorem, we use Chebyshev's Inequality, the Weak Law of Large numbers,
-Borel-Cantelli Lemma and the Strong Law of Large Numbers. The latter is considered equivalent
-to the Law of Large numbers~\footnote{
-  Depending on your requirements of certainty, the Weak Law of Large numbers might be already
-  considered equivalent to the Law of Large Numbers (Theorem~\ref{thm:lln}), but we look
-  for the Strong Law of Large Numbers in this thesis.
-}. Our proof structure is based on Craig A. Tracy's~\cite{cnfgen}\footnote{
+To prove this theorem, we use Chebyshev's Inequality, the Weak Law of Large numbers,
+Borel-Cantelli Lemma, and the Strong Law of Large Numbers.
+Depending on your requirements of certainty, either the \emph{Weak} Law of Large numbers or
+the \emph{Strong} Law of Large Numbers might be considered as Law of Large Numbers.
+Our proof structure is based on Craig A. Tracy's~\cite{cnfgen}\footnote{
   Please recognize that there is a small typographical error on page~3.
   \enquote{$S_n(\omega) = 1$ for every $n$} should be \enquote{$X_n(\omega) = 1$ for every $n$}.
 }.
@@ -258,7 +276,7 @@ to the Law of Large numbers~\footnote{
 \label{sec:bp-chebyshev}
 %
 Consider the continuous case.
-Let $R$ be a random variable, $f$ be a PDF over $R$, $|\cdot|$ be a norm,
+Let $R$ be a random variable, $f$ be a PDF over $R$,
 $a \in \mathbb R_{\geq 0}$, $p \in \mathbb N$ and let $\E[R^p]$ be defined as follows:
 \begin{align*}
   \E[R^p]
@@ -270,7 +288,7 @@ $a \in \mathbb R_{\geq 0}$, $p \in \mathbb N$ and let $\E[R^p]$ be defined as fo
 The discrete case follows immediately.
 This concludes the correctness of the following theorem:
 \begin{theorem}[Chebyshev's Inequality Theorem]\label{thm:chebyshev}
-  Let $R$ be a random variable, $a \in \mathbb R_{\geq 0}$ and $p \in \mathbb N$ is arbitrary.
+  Let $R$ be a random variable, $a \in \mathbb R_{\geq 0}$, and $p \in \mathbb N$ is arbitrary.
   Assume $\E[R^p] < \infty$.
   Then it holds that,
   \[ \Prob[R \geq a] \leq \frac{1}{a^p} \E[R^p] \]
@@ -305,8 +323,8 @@ The next theorem is called Weak Law of Large Numbers.
   We also need a result regarding the variance.
   In the continuous and discrete case, it holds that $a^2 \cdot \Var[X] = \Var[a \cdot X]$:
   \begin{align}
-    a^2 \cdot \Var[X] &= a^2 \cdot \int (x - \mu)^2 \cdot f(x) \, dx = \int (x \cdot a - \mu \cdot a)^2 \cdot f(x) \, dx \notag \\
-    a^2 \cdot \Var[X] &= a^2 \cdot \sum_{i=1}^n p_i \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot a^2 \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot (x_i \cdot a - \mu \cdot a)^2 \label{eq:a2V}
+    a^2 \cdot \Var[X] &= a^2 \cdot \int (x - \mu)^2 \cdot f(x) \, dx = \int (a \cdot (x - \mu))^2 \cdot f(x) \, dx \notag \\
+    a^2 \cdot \Var[X] &= a^2 \cdot \sum_{i=1}^n p_i \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot a^2 \cdot (x_i - \mu)^2 = \sum_{i=1}^n p_i \cdot (a \cdot (x_i - \mu))^2 \label{eq:a2V}
   \end{align}
   The relation $\E[X^2] = \Var[X] + \E[X]^2$ holds as well,
   \begin{align}
@@ -317,7 +335,7 @@ The next theorem is called Weak Law of Large Numbers.
   \end{align}
   We use this result to prove $\Var[T_n] = \frac{\sigma^2}{n}$.
   \begin{align}
-    \Var[T_n] &= \E[T_n^2] - \E[T_n]^2 = \E[T_n^2] - 0^2 = \E[T_n^2] & \eqref{eq:VXisEX2-EX2} \eqref{eq:tn0} \notag\\
+    \Var[T_n] &= \E[T_n^2] - \E[T_n]^2 = \E[T_n^2] - 0^2 = \E[T_n^2] & \eqref{eq:VXisEX2-EX2} \eqref{eq:tn0} \label{eq:EVT_n}\\
               &= \E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] = \E\left[\left(\frac{S_n}{n}\right)^2 - 2\frac{S_n}{n}\mu + \mu^2\right] \notag \\
               &= \E\left[\left(\frac{S_n}{n}\right)^2\right] - 2\cdot\E\left[\frac{\mu}{n} S_n\right] + \E\left[\mu^2\right] & \eqref{eq:Evv}\eqref{eq:Ecv} \notag\\
               &= \Var\left[\frac{S_n}{n}\right] + \E\left[\frac{S_n}{n}\right]^2 - 2\mu \cdot \E\left[\frac{S_n}{n}\right] + \mu^2 & \eqref{eq:VXisEX2-EX2}\eqref{eq:Ec} \notag \\
@@ -335,11 +353,11 @@ The next theorem is called Weak Law of Large Numbers.
 % This proves the so-called Bienaym\'e formula.
 % A shorter approach uses the definition of the mean:
 % \[ \Var[\avg{T_n}] = \Var\left(\frac1n \sum_{i=1}^n X_i\right) = \frac1{n^2} \sum_{i=1}^n \Var[X_i] = \frac{\sigma^2}{n} \]
-
-Furthermore, the following equation holds:
-\begin{align}
-    \Var[T_n] &= \E\left[(T_n - \E[T_n])^2\right] = \E\left[(T_n - 0)^2\right] = \E\left[T_n^2\right] \label{eq:EVT_n}
-\end{align}
+%
+%Furthermore, the following equation holds:
+%\begin{align}
+%    \Var[T_n] &= \E\left[(T_n - \E[T_n])^2\right] = \E\left[(T_n - 0)^2\right] = \E\left[T_n^2\right] \label{eq:EVT_n}
+%\end{align}
 %
 Now we can apply Chebyshev's Inequality Theorem ($R = T_n$, $a = \varepsilon \in \mathbb R, p = 2$):
 \begin{align}
@@ -425,7 +443,7 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
   Without loss of generality we assume $\mu = 0$. \\
   If $\mu = 0$ is not satisfied, we consider $P_j \coloneqq R_j - \mu$ instead.
 
-  Now, we want to give a brief outline of the proof. If it holds that,
+  First of all, we want to give a brief outline of the proof. If it holds that,
   \[ \lim_{n\to\infty} \frac{S_n(\omega)}{n} \neq 0 \]
   then $\exists \varepsilon \in \mathbb R$ with $\varepsilon > 0$ such that for infinitely many $n$
   \[ \frac{S_n(\omega)}{n} > \varepsilon \]
@@ -435,16 +453,21 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
   \[ \Prob[\mathcal E] = \Prob\left[\frac{S_n}{n} = 0\right] = 1 \]
   proving Theorem~\ref{thm:slln}. Hence condition $\frac{S_n}{n} = 0$ holds with probability $1$.
 
-  First of all, we define
+  Now we will actually carry out the proof. We define
   \[ A_n = \set{\omega \in \Omega: S_n \geq n \cdot \varepsilon} \]
-  and look at $\Prob[A_n]$ using the Chebyshev inequality (Theorem~\ref{thm:chebyshev}) with $p=4$ and $a=n\cdot\varepsilon$:
+  and look at $\Prob[A_n]$ using the Chebyshev inequality (Theorem~\ref{thm:chebyshev}) with $p=4$ and $a=(n\cdot\varepsilon)$:
   \[ \Prob[S_n \geq (n\cdot\varepsilon)] \leq \frac{1}{(n\cdot\varepsilon)^4} \E[S_n^4] \]
   We must determine $\E[S_n^4]$ which equals to
   \begin{align*}
-    \E\left[\sum_{1 \leq i,j,k,l \leq n} R_i R_j R_k R_l\right]
+    \E\left[\sum_{1 \leq i,j,k,l}^n R_i R_j R_k R_l\right]
       &= \E\left[\sum_{1\leq i}^n \sum_{1\leq j}^n \sum_{1\leq k}^n \sum_{1\leq l}^n R_i R_j R_k R_l\right] \notag\\
-      &= \E\left[(R_1^4 + \ldots + R_1 R_n^3) + (R_2 \ldots) + (R_3 \ldots) + (R_n \ldots + R_n^4) \right]
+%      &= \E\left[(R_1^4 + \ldots + R_1 R_n^3) + (R_2^4 + \ldots) + \ldots + (R_n^4 + \ldots) \right]
+      &= \E\left[(R_1^4 + R_1^3 R_2 + \ldots + R_1^4 R_n) + \ldots + (R_n R_1^3 + \ldots + R_n^4)\right]
   \end{align*}
+  Here the expected value of an addition of multiplication of random variables is asked for.
+  As far as the random variables are i.i.d.,
+  we equivalently look for the addition of multiplication of the expected value of a random variable
+  (compare with Equation~\ref{eq:ERS-RpS} and Section~\ref{sec:bp-ev-indep}).
   Because $\E[R_i] = 0$, we can remove all terms containing $R_j$ of degree 1 for any $j$.
   These are terms of the structure (assuming $i, j, k$ and $l$ distinct),
   \[
@@ -452,10 +475,12 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
     \E[R_i^2 R_j R_k], \,
     \E[R_i R_j R_k R_l]
   \]
-  Remember that multiplication of expected values (compare with Equation~\ref{eq:CovXY0}) applies here.
-  The non-zero terms are $\E[R_i^4]$ and $\E[R_i^2 R_j^2] = \left(\E[R_i^2]\right)^2$.
-  Now, we need to quantify the occurences of these non-zero terms. $\E[R_i^4]$ occurs $n$ times.
-  Terms $\E[R_i^2 R_j^2]$ occur $3n \cdot (n-1)$ times, as there are $\frac{(n-1) \cdot n}{2}$ ways to choose 2 indices and 6 ways to find $R_i^2 R_j^2$.
+  The non-zero terms are $\E[R_i^4]$ and $\E[R_i^2 R_j^2] = \left(\E[R_i^2]\right)^2 = \sigma^4$.
+  Now, we need to quantify the occurences of these non-zero terms.
+  $\E[R_i^4]$ occurs $n$ times.
+  Terms $\E[R_i^2 R_j^2]$ occur $3n \cdot (n-1)$ times,
+    as there are $\frac{(n-1) \cdot n}{2}$ ways to choose 2 indices
+    and 6 ways to find $R_i^2 R_j^2$.
   In conclusion, we determined,
   \[
     \E\left[S_n^4\right]
@@ -474,32 +499,36 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
       \leq \frac{1}{(n\cdot\varepsilon)^4} \E[S_n^4]
       \leq \frac{C \cdot n^2}{\varepsilon^4 \cdot n^2 \cdot n^2}
   \]
-  It follows that, there exists some $n_0$ such that Equation~\eqref{eq:3sigman2} is satisfied.
-  With this approach, we skip a finite number of elements of the sum. This does not affect its convergence or divergence.
+  Let $n_0$ be the smallest $n$ such that Equation~\eqref{eq:3sigman2} is satisfied.
+  Then it follows that,
   \[
       \sum_{n \geq n_0} \Prob\left[S_n \geq n \cdot \varepsilon\right]
       \leq \sum_{n \geq n_0} \frac{C}{\varepsilon^4 n^2} < \infty
   \]
+  With this approach, we skip a finite number of elements of the sum. This does not affect its convergence or divergence.
   Therefore, the conditions to apply the Borel-Cantelli Lemma (Lemma~\ref{lemma:bcl}) are satisfied.
   For every $\varepsilon > 0$ it holds that,
   \[ \Prob\left[S_n \geq n \varepsilon \text{ infinitely often}\right] = 0 \]
 \end{proof}
 
-\subsection{Marginalization}
+\subsection{Marginal distribution}
 \label{sec:bp-marginalization}
 %
 \begin{definition}
+  \index{Marginal probability}
   \index{Marginalization}
-  Let $R$ and $S$ be two random variables. Then we define,
+  Let $\Omega$ be finite.
+  Let $R$ and $S$ be two, discrete random variables. Then we define,
   \[
     \Prob[R=r, S=s] \coloneqq \Prob[\setdef{\omega \in \Omega}{R(\omega) = r \land S(\omega) = s}]
   \]
-  This definition enables us to define \emph{marginalization}:
+  This definition enables us to define the \emph{marginal distribution of $R$ and $S$}.
+  We also say, we \emph{marginalize $S$ out of $R$}:
   \[ \Prob[R=r] = \sum_{s \in S} \Prob[R=r, S=s] \]
 \end{definition}
 \begin{example}
-  Please consider our coin tossing example again.
-  Let $R$ be our random variable in $\mathbb Z$ defined as result of the first coin toss
+  Consider our coin tossing example again.
+  Let $R$ be our random variable mapping to $\mathbb Z$ defined as result of the first coin toss
   (1 represents head, 0 represents tails).
   $\mathbb Z$-valued random variable $S$ is defined as result of the second coin toss.
   Then
@@ -517,19 +546,24 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
 \label{sec:bp-joint-distribution}
 %
 \begin{definition}
-  Let $R$ and $S$ be two random variables.
-  Joint distribution is given by the following definition:
-  \[ \Prob[R=r, S=s] = \Prob[R=r] \cdot \Prob[S=s] \]
-  It is important to recognize, that we assume conditional independence of events
-  as defined in Section~\ref{sec:bp-indep}.
+  Let $R_i$ be discrete random variables in $1 \leq i \leq n$.
+  Joint distribution is given by the \emph{chain rule of probability}:
+  \begin{align*}
+    \Prob[R_1=r_1, \ldots, R_n=r_n]
+        &= \Prob[R_1=r_1] \cdot \Prob[R_2=r_2|R_1=r_1] \cdots \\
+        &\cdot \Prob[R_n=r_n|R_1=r_1,R_2=r_2,\ldots,R_{n-1}=r_{n-1}]
+  \end{align*}
+  If independence (see Section~\ref{sec:bp-indep}) of the random variables is given, it holds that
+  \[ \Prob[R_i=r_i|R_1=r_1,\ldots,R_{i-1}=r_{i-1}] = \Prob[R_i=r_i] \qquad \forall i=1,\ldots,n \]
+  \[ \Rightarrow \Prob[R_1=r_1, \ldots, R_n=r_n] = \prod_{i=1}^n \Prob[R_i=r_i] \]
 \end{definition}
 \begin{example}
   In our coin tossing example, we have that:
-  \[ \Prob[R=1, S=0] = \Prob[\set{(h, t), (h, h)}] \cdot \Prob[\set{(t, t), (h, t)}] = \frac24 \cdot \frac24 = \frac12 \]
-  In the Marginalization example, we used the same query and used a different approach to get the same result.
+  \[ \Prob[R=1, S=0] = \Prob[\set{(h, t), (h, h)}] \cdot \Prob[\set{(t, t), (h, t)}] = \frac24 \cdot \frac24 = \frac14 \]
+  In the marginalization example, we used the same query and used a different approach to get the same result.
 \end{example}
 
-\subsection{independence}
+\subsection{Independence}
 \label{sec:bp-indep}
 %
 \index{Independence}
@@ -540,7 +574,7 @@ we will use the Borel-Cantelli Lemma, an important result of measure theory.
   the probability space $(\Omega, \mathcal A, \Prob)$.
   Two $\mathbb Z$-valued random variables $R$ and $S$ are called \emph{(mutually) independent} if
   \[ \Prob[R=r, S=s] = \Prob[R=r] \cdot \Prob[S=s] \]
-  for any $r, s \in {\mathbb Z}$ (see, e.g., \cite[p.~27]{ito}, \cite[p.~143]{grindstead}).
+  for any $r, s \in {\mathbb Z}$ (see, e.g.,~\cite[p.~27]{ito},~\cite[p.~143]{grindstead}).
 \end{definition}
 
 Let $A$ be an element of the $\sigma$-algebra ${\mathcal A}$.
@@ -556,24 +590,27 @@ Let $A$ and $B$ be elements of the $\sigma$-algebra ${\mathcal A}$.
 The sets (events) $A$ and $B$ are called independent
 when the random variables $1_A$ and $1_B$ are independent.
 
+It is important to distinguish between \emph{mutual independence} and \emph{pairwise independence}.
+Pairwise independence of events is a weaker condition.
+
 \begin{example}
-  Consider our previous coin tossing example (compare with Example~\ref{ex:cointoss}).
-  Let us denote coin tosses $ij$, where $ij$ are the results of the first and second coin toss respectively.
+  Consider our previous coin tossing example (Example~\ref{ex:cointoss}).
+  Let us denote coin tosses $ij$, where $i$ and $j$ are the results of the first and second coin toss respectively.
   Define the random variable $R$ as
-  \[ R(00)=0, R(01)=0, R(10)=1, R(11)=1 \]
+  \[ R(00)=0, \quad R(01)=0, \quad R(10)=1, \quad R(11)=1 \]
   and define the random variable $S$ (intuitively the result of the second toss) as
-  \[ S(00)=0, S(01)=1, S(10)=0, S(11)=1 \]
+  \[ S(00)=0, \quad S(01)=1, \quad S(10)=0, \quad S(11)=1 \]
   Then we have
   \[
-    \Prob(R=0, S=0) = 
-    \Prob(R=0, S=1) = 
-    \Prob(R=1, S=0) = 
-    \Prob(R=1, S=1) = 1/4
+    \Prob[R=0, S=0] = 
+    \Prob[R=0, S=1] = 
+    \Prob[R=1, S=0] = 
+    \Prob[R=1, S=1] = 1/4
   \]
-  Since $\Prob(R=i) = \frac12$ and $\Prob(S=j) = \frac12$,
-  we can see $\Prob(R=i, S=j) = \Prob(R=i) \cdot \Prob(S=j)$.
+  Since $\Prob[R=i] = \frac12$ and $\Prob[S=j] = \frac12$,
+  we can see $\Prob[R=i, S=j] = \Prob[R=i] \cdot \Prob[S=j]$.
   Therefore $R$ and $S$ are independent random variables.
-  The elements of $\sigma$ algebra
+  The elements of $\sigma$-algebra
   $A = \set{01, 11} = R^{-1}(1)$ and $B = \set{10, 11} = S^{-1}(1)$
   are independent.
   Intuitively speaking, the event getting $1$ at the first toss
@@ -581,21 +618,39 @@ when the random variables $1_A$ and $1_B$ are independent.
   are independent.
 \end{example}
 
-Let $R$, $S$, $T$ be $\mathcal Z$-valued random variables.
+\subsection{Expected value of independent random variables}
+\label{sec:bp-ev-indep}
+%
+Let $R$ and $S$ be two random variables. We prove $\E[R \cdot S] = \E[R] \cdot \E[S]$
+for the discrete and continuous case:
+%
+\begin{align*}
+  \E[R \cdot S] &= \int_{-\infty}^{\infty} \Prob[R=x] \cdot \Prob[S=y] \cdot R(x) \cdot S(y) \, dx \, dy \\
+                &= \left(\int_{-\infty}^{\infty} \Prob[R=x] \cdot R(x) \, dx\right) \left(\int_{-\infty}^{\infty} \Prob[S=y] \cdot S(y) \, dy\right) \\
+                &= \E[R] \cdot \E[S] \\
+  \E[R \cdot S] &= \sum_{a \in \mathcal A_R} \sum_{b \in \mathcal A_S} \left(\Prob[R=a] \cdot \Prob[S=b] \cdot R(a) \cdot S(b)\right) \\
+                &= \left(\sum_{a \in \mathcal A_R} \Prob[R=a] \cdot R(a)\right) \cdot \left(\sum_{b \in \mathcal A_S} \Prob[S=b] \cdot S(b)\right) \\
+                &= \E[R] \cdot \E[S]
+\end{align*}
+
+\subsection{Conditional independence}
+\label{sec:bp-cond-indep}
+%
+Let $R$, $S$, and $T$ be $\mathbb Z$-valued random variables.
 The random variables $R$ and $S$ are conditionally independent under the given random variable $T$
-when
+if
 \[
   \ProbCond{R=r, S=s}{T=t} =
   \ProbCond{R=r}{T=t} \cdot \ProbCond{S=s}{T=t}
 \]
-for any $r, s, t \in \mathcal Z$ (see, e.g., \cite[3.1]{dawid}).
+for any $r, s, t \in \mathbb Z$ (see, e.g.,~\cite[3.1]{dawid}).
 Let
 \[
-  A_r = R^{-1}(r) \subset \Omega \qquad
-  B_s = S^{-1}(s) \subset \Omega \qquad
-  C_t = T^{-1}(t) \subset \Omega
+  A_r = R^{-1}(r) \subseteq \Omega \qquad
+  B_s = S^{-1}(s) \subseteq \Omega \qquad
+  C_t = T^{-1}(t) \subseteq \Omega
 \]
-Then $\Prob[A_r]$, $\Prob[B_s]$, $\Prob[C_t]$ can be regarded as probability distribution functions associated to $R, S, T$ respectively.
+Then we can consider $\Prob[A_r]$, $\Prob[B_s]$, and $\Prob[C_t]$ as probability distribution functions associated to $R$, $S$, and $T$ respectively.
 We note that we have
 \begin{align*}
   \ProbCond{R=r, S=s}{T=t} &= \frac{\Prob[A_r \cap B_s \cap C_t]}{\Prob[C_t]} \\
@@ -604,18 +659,15 @@ We note that we have
 \end{align*}
 by the definition of the conditional probability.
 
-\TODO{definition 3+ variables case}
-\TODO{mutual independence $\neq$ pairwise independence}
-
 \subsection{Bayes' Theorem}
 \label{sec:bp-bayes}
 %
 \begin{theorem}[Bayes' Theorem]
-  Let $A$ and $B$ be two events and $\Prob[B] \neq 0$. Then:
+  Let $A$ and $B$ be two events. Let $\Prob[B] \neq 0$. Then:
   \[ \Prob[A|B] = \frac{\Prob[B|A] \cdot \Prob[A]}{\Prob[B]} \]
 \end{theorem}
 \begin{proof}
-  In section~\ref{sec:bp-indep}, we showed the following relation between marginal and conditional probability:
+  Due to the chain of probability, the following statement holds:
   \[ \Prob[A,B] = \Prob[B|A] \cdot \Prob[A] = \Prob[A|B] \cdot \Prob[B] \]
   Bayes' theorem follows immediately:
   \[ \frac{\Prob[B|A] \cdot \Prob[A]}{\Prob[B]} = \Prob[A|B] \]
@@ -630,29 +682,107 @@ The names derive from the fact, that $\Prob[A]$ is known beforehand in most appl
 %
 Probability distributions are templates for probability density functions
 satisfying the criteria mentioned in Section~\ref{sec:bp-continuous}.
-They are parameterized by one or more variables and can be continuous or discrete.
+They are parameterized by one or more variables.
+Besides the continuous distributions presented here, discrete distributions also exist.
 
 \subsection{Normal distribution}
 \label{sec:bp-norm-dist}
 %
-\TODO{definition}
-\TODO{visualization}
+\index{Normal distribution}
+\index{Gaussian distribution}
+\index{Bell curve}
+The \emph{Normal distribution} (also \emph{Gaussian distribution} or informally \emph{Bell curve}) is a continuous
+probability distribution parameterized by $\mu$ (the mean of the distribution) and $\sigma^2$ (variance).
+\[ f(x \,|\, \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}} \]
+The distribution is visualized with 4 configurations in Figure~\ref{fig:norm-dist}.
 
-\subsection{Gaussian distribution}
-\label{sec:bp-gaussian-dist}
+\begin{figure}[p]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{img/normal_distribution.pdf}
+    \caption{
+      Four different normal distributions with $\mu=0$ and $\sigma^2 = 0.2$ [blue],
+      $0.5$ [red], $1.0$ [green], and $5.0$ [yellow]
+    }
+    \label{fig:norm-dist}
+  \end{center}
+\end{figure}
+
+\subsection{Beta distribution}
+\label{sec:beta-dist}
 %
-\TODO{definition}
-\TODO{visualization}
+\index{Beta distribution}
+The \emph{Beta distribution} is parameterized by $a$ and $b > 0$.
+\[ f(x \,|\, a, b) = \frac{1}{B(a, b)} x^{a - 1} (1 - x)^{b-1} \]
+where $B(a, b) = \int_0^1 x^{a-1} (1 - x)^{b-1} \, dx$, the so-called beta function.
+The distribution is visualized with 4 configurations in Figure~\ref{fig:beta-dist}.
+
+\begin{figure}[p]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{img/beta_distribution.pdf}
+    \caption{
+      Four different beta distributions:
+      $(a=0.5, b=1.5)$ [blue], $(1, 2)$ [red], $(2.5, 4)$ [green], and $(5, 5)$ [yellow]
+    }
+    \label{fig:beta-dist}
+  \end{center}
+\end{figure}
 
 \subsection{Independent and identically distributed}
 \label{sec:bp-iid}
 %
-\TODO{definition}
-\TODO{illustrative example}
+Let $R_i$ be a set of $n$ random variables. $R_i$ are called \emph{independent and
+identically distributed} (i.i.d.) if they are mutually independent and each
+variable follows the same probability distribution.
+
+\begin{example}
+  Three board game players possess two fair dice each.
+  Every player is asked to throw them and tell the sum of these two thrown dice.
+
+  All three die sums share the same distribution.
+  Sum $2$ is thrown with a chance of $\frac{1}{36}$.
+  Sum $7$ is thrown with a chance of $\frac{6}{36}$ (etc.).
+  The result of one player does not influence the result of the other player.
+  They are mutually independent.
+\end{example}
 
 \section{Graphical models}
-\label{sec:bp-graphical-models}
+\label{sec:gm}
 %
+\index{Bayesian network}
+\index{Graphical model}
+In order to specify a probabilistic model, you have to provide the following definitions:
+\begin{itemize}
+  \item A set of random variables and their co-domain ($E$ is either $\mathbb Z$ or $\mathbb R$)
+  \item The random variables' dependencies (according to Section~\ref{sec:bp-indep})
+  \item You can assign probabilities (conditional probabilities or unconditioned probabilities)
+\end{itemize}
+%
+A graphical model explicitly defines the dependencies using a graph.
+Particularly, we looked at \emph{Bayesian networks}, which use a directed acyclic graph (DAG).
+
+Given a Bayesian network, we can make queries (ask for determination of a probability).
+Using all the rules about probability theory we learned before, we can derive new knowledge
+and might be able to answer the query.
+
+Graphical models furthermore employ two interesting properties.
+
+\subsection{Joint probability of the network}
+\label{sec:gm-joint-prob}
+%
+The joint probability of the Bayesian network with random variables $R_1, R_2, \ldots, R_n$ is given with
+\[ \Prob[R_1, \ldots, R_n] = \prod_{i=1}^n \ProbCond{R_i}{\operatorname{ParentNodes}(R_i)} \]
+where $\operatorname{ParentNodes}(R_i)$ denotes all the nodes $R_i$ depends on.
+This property can be helpful to answer queries.
+
+\subsection[d-separation]{$d$-separation}
+\label{sec:gm-d-separation}
+%
+
+
+\subsection{Tool: Bayesian inference}
+
+
+
 \TODO{Show symmetry, decomposition, weak union and contraction, via Dawid et al.}
 
 \section{Example: Polynomial curve fitting problem}
@@ -662,7 +792,7 @@ They are parameterized by one or more variables and can be continuous or discret
 %
 \TODO{visualization}
 
-In the following, we introduce the curve fitting problem similar to \cite[p.~4~ff.]{Bishop}.
+In the following, we introduce the curve fitting problem similar to Bishop~\cite[p.~4~ff.]{Bishop}.
 The problem is defined as follows:
 
 \begin{problem}[Polynomial curve fitting problem]
@@ -679,15 +809,39 @@ The problem is defined as follows:
   \end{description}
 \end{problem}
 
-The degree of the polynomial is unknown on purpose.
+The degree of the polynomial is purposely unknown.
 \emph{Model selection} is a branch of Machine Learning dedicated to finding appropriate models for given problems.
 So for polynomial degree choice for our curve fitting problem, we refer to research literature in Model Selection. \TODO{provide useful references for Curve Fitting}
+\index{Error function}
+An \emph{error function} in this context is any function using $w$, $x$ and $t$ to determine a numeric value representing how much $w$ deviates from $t$ at $x$.
 Popular error functions include
 \begin{align}
   E(w) &= \frac12 \sum_{n=1}^N \left(y(x_n, w) - t_n\right)^2 \tag{Mean squared error, MSE} \\
   E(w) &= \sqrt{\frac{1}{N} \sum_{n=1}^N (y(x_n, w) - t_n)^2} \tag{Root mean square, RMS} \\
   E(w) &= \frac1N \sum_{n=1}^N (y(x_n, w) - t_n)              \tag{Mean signed deviation, MSD}
 \end{align}
+% TODO: error function does not need to be derivable, right? But in our design, we derive it to find the gradient to minimize it. So probably it is not required because of backpropagation, but by gradient descent.
+
+\begin{figure}[!h]
+  \begin{center}
+    \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{img/interpolation-linear.pdf}
+      \caption{Linear interpolation}
+      \label{fig:linear-interpolation}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{img/interpolation-nonlinear.pdf}
+      \caption{Nonlinear interpolation}
+      \label{fig:nonlinear-interpolation}
+    \end{subfigure}
+    \caption{
+      In Figure~\ref{fig:linear-interpolation}, y-values $t_1$ and $t_2$ can be interpolated
+      easily using a linear approach. But with more $y$-values (3, in the case of Figure~\ref{fig:nonlinear-interpolation}),
+      the problem often requires non-linear solutions.
+    }
+    \label{fig:interpolation}
+  \end{center}
+\end{figure}
 
 \subsection{Overfitting}
 \label{sec:bp-overfitting}
@@ -706,7 +860,15 @@ So the algorithm perfectly adapted itself to recognize the training data, but pe
 \TODO{visualization}
 
 \subsection{Regularization as countermeasure}
+
+In order to restrict the neural network from overfitting, you penalize it for using
+large weights.
+
 \[ E(w) = \frac12 \sum_{n=1}^N (y(x_n, w) - t_n)^2 + \frac{\lambda}{2} \abs{w}^2 \]
+
+Here, the term $\frac{\lambda}{2} \abs{w}^2$ was added where $\abs{w}^2$ denotes the
+matrix multiplication
+\[ \abs{w}^2 = w^T \cdot w = w_0^2 + w_1^2 + \ldots + w_M^2 \]
 
 % introduce gaussian distribution to every data point
 
